@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 
-public class SeleniumTestsOfMarriageRegistration {
+public class MarriageRegistrationSeleniumTest {
 
     public static void main(String[] args) {
 
