@@ -1,31 +1,27 @@
 package org.example;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 
 import java.time.Duration;
 
-public class Main {
+public class SeleniumTestsOfMarriageRegistration {
 
     public static void main(String[] args) {
 
-        System.setProperty("webdriver.edge.driver", "D:/EdgeWebDriver/msedgedriver.exe/");
-
-        EdgeOptions options = new EdgeOptions();
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
 
-        WebDriver driver = new EdgeDriver();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         try {
             driver.get("https://user:senlatest@regoffice.senla.eu/");
 
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-
             WebElement buttonUserByText = driver.findElement(By.xpath("//div/button[text()=\"Войти как пользователь\"]"));
             buttonUserByText.click();
-
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
             WebElement searchSurnameField = driver.findElement(By.id("TextInputField-1"));
             searchSurnameField.sendKeys("Козека", Keys.ENTER);
@@ -45,17 +41,11 @@ public class Main {
             WebElement searchRegistrationAddressField = driver.findElement(By.id("TextInputField-6"));
             searchRegistrationAddressField.sendKeys("г. Брест", Keys.ENTER);
 
-            Thread.sleep(2000);
-
             WebElement buttonNextByText = driver.findElement(By.xpath("//*[text()=\"Далее\"]"));
             buttonNextByText.click();
 
-            Thread.sleep(2000);
-
             WebElement buttonRegistrationOfMarriage = driver.findElement(By.xpath("//button[text()=\"Регистрация брака\"]"));
             buttonRegistrationOfMarriage.click();
-
-            Thread.sleep(2000);
 
             WebElement searchMRSurnameField = driver.findElement(By.id("TextInputField-7"));
             searchMRSurnameField.sendKeys("Вашкевич", Keys.ENTER);
@@ -78,12 +68,8 @@ public class Main {
             WebElement searchMRRegistrationAddressField = driver.findElement(By.id("TextInputField-13"));
             searchMRRegistrationAddressField.sendKeys("г. Брест", Keys.ENTER);
 
-            Thread.sleep(2000);
-
             WebElement buttonMRNextByText = driver.findElement(By.xpath("//*[text()=\"Далее\"]"));
             buttonMRNextByText.click();
-
-            Thread.sleep(2000);
 
             WebElement searchMRDataDateOfRegistration = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Дата регистрации')]/@for)]"));
             searchMRDataDateOfRegistration.sendKeys("20072026", Keys.ENTER);
@@ -106,13 +92,10 @@ public class Main {
             WebElement searchMRSpousePassportNumberField = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Номер паспорта супруга/и')]/@for)]"));
             searchMRSpousePassportNumberField.sendKeys("АВ2222222", Keys.ENTER);
 
-            Thread.sleep(2000);
-
             WebElement buttonMRFinishByText = driver.findElement(By.xpath("//*[text()=\"Завершить\"]"));
             buttonMRFinishByText.click();
 
             Thread.sleep(2000);
-
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
