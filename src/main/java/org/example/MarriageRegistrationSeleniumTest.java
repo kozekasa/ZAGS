@@ -1,106 +1,65 @@
 package org.example;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-
-import java.time.Duration;
+import org.example.driver.WebDriverSingleton;
+import org.example.elements.NavigationButton;
+import org.example.models.CitizenData;
+import org.example.models.MarriageRegistrationServiceData;
+import org.example.models.UserData;
+import org.example.pages.MarriageRegistrationPage;
+import org.example.pages.UserRegistrationPage;
 
 public class MarriageRegistrationSeleniumTest {
 
     public static void main(String[] args) {
+        var driver = WebDriverSingleton.getDriver();
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
+        UserData user = new UserData(
+                "Иванов",
+                "Иван",
+                "Иванович",
+                "375297777777",
+                "АВ1234567",
+                "г. Брест");
 
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        CitizenData citizen = new CitizenData(
+                "Иванов",
+                "Иван",
+                "Иванович",
+                "23072004",
+                "АВ1234567",
+                "male",
+                "г. Брест");
+
+        MarriageRegistrationServiceData serviceData = new MarriageRegistrationServiceData(
+                "29012026",
+                "Иванова",
+                "Иванов",
+                "Иван",
+                "Иванович",
+                "27012004",
+                "AB1234567");
 
         try {
             driver.get("https://user:senlatest@regoffice.senla.eu/");
 
-            WebElement buttonUserByText = driver.findElement(By.xpath("//div/button[text()=\"Войти как пользователь\"]"));
-            buttonUserByText.click();
+            UserRegistrationPage userRegistrationPage = new UserRegistrationPage();
+            userRegistrationPage.StartRegistration();
+            userRegistrationPage.FillUserForm(user);
+            userRegistrationPage.nextStep().click();
 
-            WebElement searchSurnameField = driver.findElement(By.id("TextInputField-1"));
-            searchSurnameField.sendKeys("Козека", Keys.ENTER);
+            MarriageRegistrationPage marriageRegistrationPage = new MarriageRegistrationPage();
+            marriageRegistrationPage.chooseMarriageRegistration();
+            marriageRegistrationPage.fillCitizenForm(citizen);
+            marriageRegistrationPage.nextStep().click();
 
-            WebElement searchNameField = driver.findElement(By.id("TextInputField-2"));
-            searchNameField.sendKeys("Александр", Keys.ENTER);
-
-            WebElement search2ndNameField = driver.findElement(By.id("TextInputField-3"));
-            search2ndNameField.sendKeys("Юрьевич", Keys.ENTER);
-
-            WebElement searchTelephoneNumberField = driver.findElement(By.id("TextInputField-4"));
-            searchTelephoneNumberField.sendKeys("77777777", Keys.ENTER);
-
-            WebElement searchPassportNumberField = driver.findElement(By.id("TextInputField-5"));
-            searchPassportNumberField.sendKeys("АВ1111111", Keys.ENTER);
-
-            WebElement searchRegistrationAddressField = driver.findElement(By.id("TextInputField-6"));
-            searchRegistrationAddressField.sendKeys("г. Брест", Keys.ENTER);
-
-            WebElement buttonNextByText = driver.findElement(By.xpath("//*[text()=\"Далее\"]"));
-            buttonNextByText.click();
-
-            WebElement buttonRegistrationOfMarriage = driver.findElement(By.xpath("//button[text()=\"Регистрация брака\"]"));
-            buttonRegistrationOfMarriage.click();
-
-            WebElement searchMRSurnameField = driver.findElement(By.id("TextInputField-7"));
-            searchMRSurnameField.sendKeys("Вашкевич", Keys.ENTER);
-
-            WebElement searchMRNameField = driver.findElement(By.id("TextInputField-8"));
-            searchMRNameField.sendKeys("Екатерина", Keys.ENTER);
-
-            WebElement searchMR2ndNameField = driver.findElement(By.id("TextInputField-9"));
-            searchMR2ndNameField.sendKeys("Вячеславовна", Keys.ENTER);
-
-            WebElement searchMRDateOfBirth = driver.findElement(By.id("TextInputField-10"));
-            searchMRDateOfBirth.sendKeys("27012004", Keys.ENTER);
-
-            WebElement searchMRPassportNumberField = driver.findElement(By.id("TextInputField-11"));
-            searchMRPassportNumberField.sendKeys("АВ2222222", Keys.ENTER);
-
-            WebElement searchMRSex = driver.findElement(By.id("TextInputField-12"));
-            searchMRSex.sendKeys("female", Keys.ENTER);
-
-            WebElement searchMRRegistrationAddressField = driver.findElement(By.id("TextInputField-13"));
-            searchMRRegistrationAddressField.sendKeys("г. Брест", Keys.ENTER);
-
-            WebElement buttonMRNextByText = driver.findElement(By.xpath("//*[text()=\"Далее\"]"));
-            buttonMRNextByText.click();
-
-            WebElement searchMRDataDateOfRegistration = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Дата регистрации')]/@for)]"));
-            searchMRDataDateOfRegistration.sendKeys("20072026", Keys.ENTER);
-
-            WebElement searchMRNewSurnameField = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Новая фамилия')]/@for)]"));
-            searchMRNewSurnameField.sendKeys("Козека", Keys.ENTER);
-
-            WebElement searchMRSpouseSurnameField = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Фамилия супруга/и')]/@for)]"));
-            searchMRSpouseSurnameField.sendKeys("Козека", Keys.ENTER);
-
-            WebElement searchMRSpouseNameField = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Имя супруга/и')]/@for)]"));
-            searchMRSpouseNameField.sendKeys("Екатерина", Keys.ENTER);
-
-            WebElement searchMRSpouse2ndNameField = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Отчество супруга/и')]/@for)]"));
-            searchMRSpouse2ndNameField.sendKeys("Вячеславовна", Keys.ENTER);
-
-            WebElement searchMRSpouseDateOfBirth = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Дата рождения супруга/и')]/@for)]"));
-            searchMRSpouseDateOfBirth.sendKeys("27012004", Keys.ENTER);
-
-            WebElement searchMRSpousePassportNumberField = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Номер паспорта супруга/и')]/@for)]"));
-            searchMRSpousePassportNumberField.sendKeys("АВ2222222", Keys.ENTER);
-
-            WebElement buttonMRFinishByText = driver.findElement(By.xpath("//*[text()=\"Завершить\"]"));
-            buttonMRFinishByText.click();
+            marriageRegistrationPage.fillMarriageRegistrationServiceForm(serviceData);
+            marriageRegistrationPage.finishButton().click();
 
             Thread.sleep(2000);
-
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
-            driver.quit();
+            WebDriverSingleton.quit();
         }
     }
 }
