@@ -3,6 +3,7 @@ package org.example.pages;
 import org.example.driver.WebDriverSingleton;
 import org.example.elements.CustomInput;
 import org.example.elements.NavigationButton;
+import org.example.elements.StatusField;
 import org.example.models.CitizenData;
 import org.example.models.MarriageRegistrationServiceData;
 import org.openqa.selenium.WebElement;
@@ -66,6 +67,9 @@ public class MarriageRegistrationPage extends BasePage {
     @FindBy(xpath = "//*[text()=\"Завершить\"]")
     private WebElement finishButton;
 
+    @FindBy(xpath = "//*[text()=\"На рассмотрении\"]")
+    private WebElement statusLabel;
+
     public void chooseMarriageRegistration() {
         marriageRegistrationButton.click();
     }
@@ -93,7 +97,12 @@ public class MarriageRegistrationPage extends BasePage {
         new CustomInput(spouseDateOfBirth).fillEndEnter(serviceData.getSpouseDateOfBirth());
         new CustomInput(spousePassportNumber).fillEndEnter(serviceData.getSpousePassportNumber());
     }
+
     public NavigationButton finishButton() {
         return new NavigationButton(finishButton);
+    }
+
+    public StatusField applicationStatus() {
+        return new StatusField(statusLabel);
     }
 }
