@@ -1,4 +1,4 @@
-package org.example;
+package MarriageRegistration;
 
 import org.example.driver.WebDriverSingleton;
 import org.example.models.CitizenData;
