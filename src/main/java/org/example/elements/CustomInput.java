@@ -10,7 +10,7 @@ public class CustomInput {
         this.element = element;
     }
 
-    public void fillEndEnter(String text) {
+    public void fillAndEnter(String text) {
         element.clear();
         element.sendKeys(text, Keys.ENTER);
     }

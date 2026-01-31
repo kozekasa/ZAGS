@@ -1,47 +1,48 @@
-package MarriageRegistration;
+package BirthRegistration;
 
 import org.example.dataFactory.TestDataFactory;
 import org.example.driver.WebDriverSingleton;
+import org.example.models.BirthRegistrationServiceData;
 import org.example.models.CitizenData;
 import org.example.models.MarriageRegistrationServiceData;
 import org.example.models.UserData;
+import org.example.pages.BirthRegistrationPage;
 import org.example.pages.MarriageRegistrationPage;
 import org.example.pages.UserRegistrationPage;
 import org.junit.jupiter.api.*;
 
-public class MarriageRegistrationTest {
+public class BirthRegistrationTest {
 
     private UserRegistrationPage userRegistrationPage;
-    private MarriageRegistrationPage marriageRegistrationPage;
+    private BirthRegistrationPage birthRegistrationPage;
 
     @BeforeEach
     public void setup() {
         WebDriverSingleton.getDriver().get("https://user:senlatest@regoffice.senla.eu/");
 
         userRegistrationPage = new UserRegistrationPage();
-        marriageRegistrationPage = new MarriageRegistrationPage();
+        birthRegistrationPage = new BirthRegistrationPage();
     }
 
     @Test
-    @DisplayName("Регистрация брака: успешное заполнение всех форм!")
-    public void testSuccessfulMarriageRegistration() {
-
+    @DisplayName("Регистрация рождения: успешное заполнение всех форм!")
+    public void testSuccessfulBirthRegistration() {
         UserData user = TestDataFactory.createDefaultUser();
         CitizenData citizen = TestDataFactory.createDefaultCitizen();
-        MarriageRegistrationServiceData serviceData = TestDataFactory.createMarriageServiceData();
+        BirthRegistrationServiceData serviceData = TestDataFactory.createBirthServiceData();
 
         userRegistrationPage.StartRegistration();
         userRegistrationPage.FillUserForm(user);
         userRegistrationPage.nextStep().click();
 
-        marriageRegistrationPage.chooseMarriageRegistration();
-        marriageRegistrationPage.fillCitizenForm(citizen);
-        marriageRegistrationPage.nextStep().click();
+        birthRegistrationPage.chooseBirthRegistration();
+        birthRegistrationPage.fillCitizenForm(citizen);
+        birthRegistrationPage.nextStep().click();
 
-        marriageRegistrationPage.fillMarriageRegistrationServiceForm(serviceData);
-        marriageRegistrationPage.finishButton().click();
+        birthRegistrationPage.fillBirthRegistrationServiceForm(serviceData);
+        birthRegistrationPage.finishButton().click();
 
-        String actualStatus = marriageRegistrationPage.applicationStatus().getText();
+        String actualStatus = birthRegistrationPage.applicationStatus().getText();
 
         Assertions.assertEquals("Статус заявки: На рассмотрении.", actualStatus, "Статус заявки не корректен или заявка не была создана!");
     }
