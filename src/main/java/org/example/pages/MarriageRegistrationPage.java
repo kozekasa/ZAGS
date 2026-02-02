@@ -8,10 +8,6 @@ import org.example.models.MarriageRegistrationServiceData;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class MarriageRegistrationPage extends BasePage {
 
@@ -81,13 +77,13 @@ public class MarriageRegistrationPage extends BasePage {
     }
 
     public void fillCitizenForm(CitizenData citizen) {
-        fillField(surnameField, citizen.getSurname());
-        fillField(nameField, citizen.getName());
-        fillField(patronymicField, citizen.getPatronymic());
-        fillField(dateOfBirthField, citizen.getDateOfBirth());
-        fillField(passportNumberField, citizen.getPassportNumber());
-        fillField(sexField, citizen.getSex());
-        fillField(registrationAddressField, citizen.getRegistrationAddress());
+        setValue(surnameField, citizen.getSurname());
+        setValue(nameField, citizen.getName());
+        setValue(patronymicField, citizen.getPatronymic());
+        setValue(dateOfBirthField, citizen.getDateOfBirth());
+        setValue(passportNumberField, citizen.getPassportNumber());
+        setValue(sexField, citizen.getSex());
+        setValue(registrationAddressField, citizen.getRegistrationAddress());
     }
 
     public NavigationButton nextStep() {
@@ -95,13 +91,13 @@ public class MarriageRegistrationPage extends BasePage {
     }
 
     public void fillMarriageRegistrationServiceForm(MarriageRegistrationServiceData serviceData) {
-        fillField(dateOfRegistration, serviceData.getDateOfRegistration());
-        fillField(newSurname, serviceData.getNewSurname());
-        fillField(spouseSurname, serviceData.getSpouseSurname());
-        fillField(spouseName, serviceData.getSpouseName());
-        fillField(spousePatronymic, serviceData.getSpousePatronymic());
-        fillField(spouseDateOfBirth, serviceData.getSpouseDateOfBirth());
-        fillField(spousePassportNumber, serviceData.getSpousePassportNumber());
+        setValue(dateOfRegistration, serviceData.getDateOfRegistration());
+        setValue(newSurname, serviceData.getNewSurname());
+        setValue(spouseSurname, serviceData.getSpouseSurname());
+        setValue(spouseName, serviceData.getSpouseName());
+        setValue(spousePatronymic, serviceData.getSpousePatronymic());
+        setValue(spouseDateOfBirth, serviceData.getSpouseDateOfBirth());
+        setValue(spousePassportNumber, serviceData.getSpousePassportNumber());
     }
 
     public NavigationButton finishButton() {

@@ -1,7 +1,6 @@
 package org.example.pages;
 
 import org.example.driver.WebDriverSingleton;
-import org.example.elements.CustomInput;
 import org.example.elements.NavigationButton;
 import org.example.elements.StatusField;
 import org.example.models.BirthRegistrationServiceData;
@@ -73,13 +72,13 @@ public class BirthRegistrationPage extends BasePage {
     }
 
     public void fillCitizenForm(CitizenData citizen) {
-        fillField(surnameField, citizen.getSurname());
-        fillField(nameField, citizen.getName());
-        fillField(patronymicField, citizen.getPatronymic());
-        fillField(dateOfBirthField, citizen.getDateOfBirth());
-        fillField(passportNumberField, citizen.getPassportNumber());
-        fillField(sexField, citizen.getSex());
-        fillField(registrationAddressField, citizen.getRegistrationAddress());
+        setValue(surnameField, citizen.getSurname());
+        setValue(nameField, citizen.getName());
+        setValue(patronymicField, citizen.getPatronymic());
+        setValue(dateOfBirthField, citizen.getDateOfBirth());
+        setValue(passportNumberField, citizen.getPassportNumber());
+        setValue(sexField, citizen.getSex());
+        setValue(registrationAddressField, citizen.getRegistrationAddress());
     }
 
     public NavigationButton nextStep() {
@@ -87,11 +86,11 @@ public class BirthRegistrationPage extends BasePage {
     }
 
     public void fillBirthRegistrationServiceForm(BirthRegistrationServiceData serviceData) {
-        fillField(placeOfBirth, serviceData.getPlaceOfBirth());
-        fillField(mother, serviceData.getMother());
-        fillField(father, serviceData.getFather());
-        fillField(grandma, serviceData.getGrandma());
-        fillField(grandpa, serviceData.getGrandpa());
+        setValue(placeOfBirth, serviceData.getPlaceOfBirth());
+        setValue(mother, serviceData.getMother());
+        setValue(father, serviceData.getFather());
+        setValue(grandma, serviceData.getGrandma());
+        setValue(grandpa, serviceData.getGrandpa());
     }
 
     public NavigationButton finishButton() {
