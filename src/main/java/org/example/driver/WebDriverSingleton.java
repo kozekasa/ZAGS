@@ -3,11 +3,14 @@ package org.example.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.time.Duration;
 
 public class WebDriverSingleton {
+
     private static WebDriver driver;
+    private static final Dotenv dotenv = Dotenv.load();
 
     private WebDriverSingleton() {}
 
@@ -26,5 +29,9 @@ public class WebDriverSingleton {
             driver.quit();
             driver = null;
         }
+    }
+
+    public static String getEnv(String key) {
+        return dotenv.get(key);
     }
 }

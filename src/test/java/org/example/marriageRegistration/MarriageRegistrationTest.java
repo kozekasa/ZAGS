@@ -1,4 +1,4 @@
-package MarriageRegistration;
+package org.example.marriageRegistration;
 
 import org.example.dataFactory.TestDataFactory;
 import org.example.driver.WebDriverSingleton;
@@ -16,13 +16,15 @@ public class MarriageRegistrationTest {
 
     @BeforeEach
     public void setup() {
-        WebDriverSingleton.getDriver().get("https://user:senlatest@regoffice.senla.eu/");
+        String url = WebDriverSingleton.getEnv("BASE_URL");
+        WebDriverSingleton.getDriver().get(url);
 
         userRegistrationPage = new UserRegistrationPage();
         marriageRegistrationPage = new MarriageRegistrationPage();
     }
 
     @Test
+    @Tag("user")
     @DisplayName("Регистрация брака: успешное заполнение всех форм!")
     public void testSuccessfulMarriageRegistration() {
 

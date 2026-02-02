@@ -1,4 +1,4 @@
-package admin;
+package org.example.admin;
 
 import org.example.dataFactory.TestDataFactory;
 import org.example.driver.WebDriverSingleton;
@@ -12,12 +12,14 @@ public class GetStatusByApplicationNumberTest {
 
     @BeforeEach
     public void setup() {
-        WebDriverSingleton.getDriver().get("https://user:senlatest@regoffice.senla.eu/");
+        String url = WebDriverSingleton.getEnv("BASE_URL");
+        WebDriverSingleton.getDriver().get(url);
 
         adminPage = new AdminPage();
     }
 
     @Test
+    @Tag("admin")
     @DisplayName("Регистрация администратора: проверка статуса заявки по её номеру")
     public void testAdminCheck() {
 

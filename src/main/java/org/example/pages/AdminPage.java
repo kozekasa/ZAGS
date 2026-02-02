@@ -15,7 +15,7 @@ public class AdminPage extends BasePage {
         PageFactory.initElements(WebDriverSingleton.getDriver(), this);
     }
 
-    @FindBy(xpath = "//div/button[text()='Войти как администратор']")
+    @FindBy(xpath = "//button[text()='Войти как администратор']")
     private WebElement loginAsAdminButton;
 
     @FindBy(xpath = "//label[contains(., 'Фамилия')]/../../input")
