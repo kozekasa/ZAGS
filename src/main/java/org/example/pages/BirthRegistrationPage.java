@@ -1,23 +1,23 @@
 package org.example.pages;
 
 import org.example.driver.WebDriverSingleton;
+import org.example.elements.CustomInput;
 import org.example.elements.NavigationButton;
 import org.example.elements.StatusField;
+import org.example.models.BirthRegistrationServiceData;
 import org.example.models.CitizenData;
-import org.example.models.MarriageRegistrationServiceData;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public class BirthRegistrationPage extends BasePage {
 
-public class MarriageRegistrationPage extends BasePage {
-
-    public MarriageRegistrationPage() {
+    public BirthRegistrationPage() {
         PageFactory.initElements(WebDriverSingleton.getDriver(), this);
     }
+
+    @FindBy(xpath = "//button[text()='Регистрация рождения']")
+    private WebElement birthRegistrationButton;
 
     @FindBy(xpath = "//button[text()='Регистрация брака']")
     private WebElement marriageRegistrationButton;
@@ -46,26 +46,21 @@ public class MarriageRegistrationPage extends BasePage {
     @FindBy(xpath = "//*[text()='Далее']")
     private WebElement nextPageButton;
 
-    @FindBy(xpath = "//label[contains(., 'Дата регистрации')]/../../input")
-    private WebElement dateOfRegistration;
+    @FindBy(xpath = "//label[contains(., 'Место рождения')]/../../input")
+    private WebElement placeOfBirth;
 
-    @FindBy(xpath = "//label[contains(., 'Новая фамилия')]/../../input")
-    private WebElement newSurname;
+    @FindBy(xpath = "//label[contains(., 'Мать')]/../../input")
+    private WebElement mother;
 
-    @FindBy(xpath = "//label[contains(., 'Фамилия супруга/и')]/../../input")
-    private WebElement spouseSurname;
+    @FindBy(xpath = "//label[contains(., 'Отец')]/../../input")
+    private WebElement father;
 
-    @FindBy(xpath = "//label[contains(., 'Имя супруга/и')]/../../input")
-    private WebElement spouseName;
+    @FindBy(xpath = "//label[contains(., 'Бабушка')]/../../input")
+    private WebElement grandma;
 
-    @FindBy(xpath = "//label[contains(., 'Отчество супруга/и')]/../../input")
-    private WebElement spousePatronymic;
+    @FindBy(xpath = "//label[contains(., 'Дедушка')]/../../input")
+    private WebElement grandpa;
 
-    @FindBy(xpath = "//label[contains(., 'Дата рождения супруга/и')]/../../input")
-    private WebElement spouseDateOfBirth;
-
-    @FindBy(xpath = "//label[contains(., 'Номер паспорта супруга/и')]/../../input")
-    private WebElement spousePassportNumber;
 
     @FindBy(xpath = "//*[text()='Завершить']")
     private WebElement finishButton;
@@ -73,11 +68,8 @@ public class MarriageRegistrationPage extends BasePage {
     @FindBy(xpath = "//*[text()='На рассмотрении']")
     private WebElement statusLabel;
 
-    @FindBy(xpath = "//span[contains(., 'Ваша заявка №')]")
-    private WebElement orderNumber;
-
-    public void chooseMarriageRegistration() {
-        marriageRegistrationButton.click();
+    public void chooseBirthRegistration() {
+        birthRegistrationButton.click();
     }
 
     public void fillCitizenForm(CitizenData citizen) {
@@ -94,14 +86,12 @@ public class MarriageRegistrationPage extends BasePage {
         return new NavigationButton(nextPageButton);
     }
 
-    public void fillMarriageRegistrationServiceForm(MarriageRegistrationServiceData serviceData) {
-        fillField(dateOfRegistration, serviceData.getDateOfRegistration());
-        fillField(newSurname, serviceData.getNewSurname());
-        fillField(spouseSurname, serviceData.getSpouseSurname());
-        fillField(spouseName, serviceData.getSpouseName());
-        fillField(spousePatronymic, serviceData.getSpousePatronymic());
-        fillField(spouseDateOfBirth, serviceData.getSpouseDateOfBirth());
-        fillField(spousePassportNumber, serviceData.getSpousePassportNumber());
+    public void fillBirthRegistrationServiceForm(BirthRegistrationServiceData serviceData) {
+        fillField(placeOfBirth, serviceData.getPlaceOfBirth());
+        fillField(mother, serviceData.getMother());
+        fillField(father, serviceData.getFather());
+        fillField(grandma, serviceData.getGrandma());
+        fillField(grandpa, serviceData.getGrandpa());
     }
 
     public NavigationButton finishButton() {
@@ -111,15 +101,5 @@ public class MarriageRegistrationPage extends BasePage {
     public StatusField applicationStatus() {
         return new StatusField(statusLabel);
     }
-
-    public String getOrderNumber() {
-
-        String fullText = orderNumber.getText();
-        String orderNumber = fullText.replaceAll("[^0-9]", "");
-
-        if (orderNumber.isEmpty()) {
-            throw new RuntimeException("Не удалось извлечь номер заявки из текста: " + fullText);
-        }
-        return orderNumber;
-    }
 }
+

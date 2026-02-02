@@ -1,41 +1,40 @@
 package org.example.pages;
 
 import org.example.driver.WebDriverSingleton;
-import org.example.elements.CustomInput;
 import org.example.elements.NavigationButton;
 import org.example.models.UserData;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class UserRegistrationPage {
+public class UserRegistrationPage extends BasePage {
 
     public UserRegistrationPage() {
         PageFactory.initElements(WebDriverSingleton.getDriver(), this);
     }
 
-    @FindBy(xpath = "//div/button[text()=\"Войти как пользователь\"]")
+    @FindBy(xpath = "//div/button[text()='Войти как пользователь']")
     private WebElement loginAsUserButton;
 
-    @FindBy(xpath = "//input[@id=(//label[contains(., 'Фамилия')]/@for)]")
+    @FindBy(xpath = "//label[contains(., 'Фамилия')]/../../input")
     private WebElement surnameField;
 
-    @FindBy(xpath = "//input[@id=(//label[contains(., 'Имя')]/@for)]")
+    @FindBy(xpath = "//label[contains(., 'Имя')]/../../input")
     private WebElement nameField;
 
-    @FindBy(xpath = "//input[@id=(//label[contains(., 'Отчество')]/@for)]")
+    @FindBy(xpath = "//label[contains(., 'Отчество')]/../../input")
     private WebElement patronymicField;
 
-    @FindBy(xpath = "//input[@id=(//label[contains(., 'Телефон')]/@for)]")
+    @FindBy(xpath = "//label[contains(., 'Телефон')]/../../input")
     private WebElement telephoneNumberField;
 
-    @FindBy(xpath = "//input[@id=(//label[contains(., 'Номер паспорта')]/@for)]")
+    @FindBy(xpath = "//label[contains(., 'Номер паспорта')]/../../input")
     private WebElement passportNumberField;
 
-    @FindBy(xpath = "//input[@id=(//label[contains(., 'Адрес прописки')]/@for)]")
+    @FindBy(xpath = "//label[contains(., 'Адрес прописки')]/../../input")
     private WebElement registrationAddressField;
 
-    @FindBy(xpath = "//*[text()=\"Далее\"]")
+    @FindBy(xpath = "//*[text()='Далее']")
     private WebElement nextPageButton;
 
     public void StartRegistration() {
@@ -43,12 +42,12 @@ public class UserRegistrationPage {
     }
 
     public void FillUserForm(UserData user) {
-        new CustomInput(surnameField).fillEndEnter(user.getSurname());
-        new CustomInput(nameField).fillEndEnter(user.getName());
-        new CustomInput(patronymicField).fillEndEnter(user.getPatronymic());
-        new CustomInput(telephoneNumberField).fillEndEnter(user.getTelephoneNumber());
-        new CustomInput(passportNumberField).fillEndEnter(user.getPassportNumber());
-        new CustomInput(registrationAddressField).fillEndEnter(user.getRegistrationAddress());
+        fillField(surnameField, user.getSurname());
+        fillField(nameField, user.getName());
+        fillField(patronymicField, user.getPatronymic());
+        fillField(telephoneNumberField, user.getTelephoneNumber());
+        fillField(passportNumberField, user.getPassportNumber());
+        fillField(registrationAddressField, user.getRegistrationAddress());
     }
 
     public NavigationButton nextStep() {
