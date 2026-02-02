@@ -42,12 +42,12 @@ public class UserRegistrationPage extends BasePage {
     }
 
     public void FillUserForm(UserData user) {
-        fillField(surnameField, user.getSurname());
-        fillField(nameField, user.getName());
-        fillField(patronymicField, user.getPatronymic());
-        fillField(telephoneNumberField, user.getTelephoneNumber());
-        fillField(passportNumberField, user.getPassportNumber());
-        fillField(registrationAddressField, user.getRegistrationAddress());
+        setValue(surnameField, user.getSurname());
+        setValue(nameField, user.getName());
+        setValue(patronymicField, user.getPatronymic());
+        setValue(telephoneNumberField, user.getTelephoneNumber());
+        setValue(passportNumberField, user.getPassportNumber());
+        setValue(registrationAddressField, user.getRegistrationAddress());
     }
 
     public NavigationButton nextStep() {

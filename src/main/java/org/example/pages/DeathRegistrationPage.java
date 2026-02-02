@@ -59,13 +59,13 @@ public class DeathRegistrationPage extends BasePage {
     }
 
     public void fillCitizenForm(CitizenData citizen) {
-        fillField(surnameField, citizen.getSurname());
-        fillField(nameField, citizen.getName());
-        fillField(patronymicField, citizen.getPatronymic());
-        fillField(dateOfBirthField, citizen.getDateOfBirth());
-        fillField(passportNumberField, citizen.getPassportNumber());
-        fillField(sexField, citizen.getSex());
-        fillField(registrationAddressField, citizen.getRegistrationAddress());
+        setValue(surnameField, citizen.getSurname());
+        setValue(nameField, citizen.getName());
+        setValue(patronymicField, citizen.getPatronymic());
+        setValue(dateOfBirthField, citizen.getDateOfBirth());
+        setValue(passportNumberField, citizen.getPassportNumber());
+        setValue(sexField, citizen.getSex());
+        setValue(registrationAddressField, citizen.getRegistrationAddress());
     }
 
     public NavigationButton nextStep() {
@@ -73,8 +73,8 @@ public class DeathRegistrationPage extends BasePage {
     }
 
     public void fillDeathRegistrationServiceForm(DeathRegistrationServiceData serviceData) {
-        fillField(dateOfDeath, serviceData.getDateOfDeath());
-        fillField(placeOfDeath, serviceData.getPlaceOfDeath());
+        setValue(dateOfDeath, serviceData.getDateOfDeath());
+        setValue(placeOfDeath, serviceData.getPlaceOfDeath());
     }
 
     public NavigationButton finishButton() {

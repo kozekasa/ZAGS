@@ -44,12 +44,12 @@ public class AdminPage extends BasePage {
     }
 
     public void FillAdminForm(AdminData admin) {
-        fillField(surnameField, admin.getSurname());
-        fillField(nameField, admin.getName());
-        fillField(patronymicField, admin.getPatronymic());
-        fillField(telephoneNumberField, admin.getTelephoneNumber());
-        fillField(passportNumberField, admin.getPassportNumber());
-        fillField(dateOfBirthField, admin.getDateOfBirth());
+        setValue(surnameField, admin.getSurname());
+        setValue(nameField, admin.getName());
+        setValue(patronymicField, admin.getPatronymic());
+        setValue(telephoneNumberField, admin.getTelephoneNumber());
+        setValue(passportNumberField, admin.getPassportNumber());
+        setValue(dateOfBirthField, admin.getDateOfBirth());
     }
 
     public NavigationButton nextStep() {

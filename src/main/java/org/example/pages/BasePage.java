@@ -10,7 +10,7 @@ public class BasePage {
         PageFactory.initElements(WebDriverSingleton.getDriver(), this);
     }
 
-    public void fillField (WebElement field, String value) {
+    public void setValue(WebElement field, String value) {
         new CustomInput(field).fillAndEnter(value);
     }
 }

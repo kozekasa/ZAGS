@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.driver.WebDriverSingleton;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,16 +12,13 @@ public class SeleniumTestsOfMarriageRegistration {
 
     public static void main(String[] args) {
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        WebDriver driver = WebDriverSingleton.getDriver();
 
         try {
-            driver.get("https://user:senlatest@regoffice.senla.eu/");
+            String baseUrl = WebDriverSingleton.getEnv("BASE_URL");
+            driver.get(baseUrl);
 
-            WebElement buttonUserByText = driver.findElement(By.xpath("//div/button[text()=\"Войти как пользователь\"]"));
+            WebElement buttonUserByText = driver.findElement(By.xpath("//div/button[text()='Войти как пользователь']"));
             buttonUserByText.click();
 
             WebElement searchSurnameField = driver.findElement(By.id("TextInputField-1"));
@@ -41,10 +39,10 @@ public class SeleniumTestsOfMarriageRegistration {
             WebElement searchRegistrationAddressField = driver.findElement(By.id("TextInputField-6"));
             searchRegistrationAddressField.sendKeys("г. Брест", Keys.ENTER);
 
-            WebElement buttonNextByText = driver.findElement(By.xpath("//*[text()=\"Далее\"]"));
+            WebElement buttonNextByText = driver.findElement(By.xpath("//*[text()='Далее']"));
             buttonNextByText.click();
 
-            WebElement buttonRegistrationOfMarriage = driver.findElement(By.xpath("//button[text()=\"Регистрация брака\"]"));
+            WebElement buttonRegistrationOfMarriage = driver.findElement(By.xpath("//button[text()='Регистрация брака']"));
             buttonRegistrationOfMarriage.click();
 
             WebElement searchMRSurnameField = driver.findElement(By.id("TextInputField-7"));
@@ -68,7 +66,7 @@ public class SeleniumTestsOfMarriageRegistration {
             WebElement searchMRRegistrationAddressField = driver.findElement(By.id("TextInputField-13"));
             searchMRRegistrationAddressField.sendKeys("г. Брест", Keys.ENTER);
 
-            WebElement buttonMRNextByText = driver.findElement(By.xpath("//*[text()=\"Далее\"]"));
+            WebElement buttonMRNextByText = driver.findElement(By.xpath("//*[text()='Далее']"));
             buttonMRNextByText.click();
 
             WebElement searchMRDataDateOfRegistration = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Дата регистрации')]/@for)]"));
@@ -92,7 +90,7 @@ public class SeleniumTestsOfMarriageRegistration {
             WebElement searchMRSpousePassportNumberField = driver.findElement(By.xpath("//input[@id=(//label[contains(., 'Номер паспорта супруга/и')]/@for)]"));
             searchMRSpousePassportNumberField.sendKeys("АВ2222222", Keys.ENTER);
 
-            WebElement buttonMRFinishByText = driver.findElement(By.xpath("//*[text()=\"Завершить\"]"));
+            WebElement buttonMRFinishByText = driver.findElement(By.xpath("//*[text()='Завершить']"));
             buttonMRFinishByText.click();
 
             Thread.sleep(2000);
