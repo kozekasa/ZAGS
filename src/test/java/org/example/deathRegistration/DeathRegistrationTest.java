@@ -37,24 +37,24 @@ public class DeathRegistrationTest extends BaseTest {
         logger.info("Тестовые данные успешно сгенерированы.");
 
         logger.info("Шаг 1: Регистрация пользователя...");
-        userRegistrationPage().StartRegistration();
-        userRegistrationPage().FillUserForm(user);
-        userRegistrationPage().nextStep().click();
+        pages.userRegistrationPage().StartRegistration();
+        pages.userRegistrationPage().FillUserForm(user);
+        pages.userRegistrationPage().nextStep().click();
         logger.info("Данные пользователя заполнены.");
 
         logger.info("Шаг 2: Выбор услуги и заполнение данных гражданина (заявителя)...");
-        deathRegistrationPage().chooseDeathRegistration();
-        deathRegistrationPage().fillCitizenForm(citizen);
-        deathRegistrationPage().nextStep().click();
+        pages.deathRegistrationPage().chooseDeathRegistration();
+        pages.deathRegistrationPage().fillCitizenForm(citizen);
+        pages.deathRegistrationPage().nextStep().click();
         logger.info("Данные гражданина заполнены.");
 
         logger.info("Шаг 3: Заполнение формы: данные об умершем и свидетельстве...");
-        deathRegistrationPage().fillDeathRegistrationServiceForm(serviceData);
-        deathRegistrationPage().finishButton().click();
+        pages.deathRegistrationPage().fillDeathRegistrationServiceForm(serviceData);
+        pages.deathRegistrationPage().finishButton().click();
         logger.info("Заявка на услугу оформлена.");
 
         logger.info("Финальный шаг: Проверка статуса заявки...");
-        String actualStatus = deathRegistrationPage().applicationStatus().getText();
+        String actualStatus = pages.deathRegistrationPage().applicationStatus().getText();
         logger.info("Фактический статус: {}", actualStatus);
 
         Assertions.assertEquals("Статус заявки: На рассмотрении.", actualStatus, "Статус заявки не корректен или заявка не была создана!");

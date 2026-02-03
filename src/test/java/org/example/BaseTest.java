@@ -4,53 +4,15 @@ import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.driver.WebDriverSingleton;
-import org.example.pages.*;
+import org.example.pages.PageManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 public class BaseTest {
 
     protected static final Logger logger = LogManager.getLogger(BaseTest.class);
-    private UserRegistrationPage userRegistrationPage;
-    private MarriageRegistrationPage marriageRegistrationPage;
-    private BirthRegistrationPage birthRegistrationPage;
-    private DeathRegistrationPage deathRegistrationPage;
-    private AdminPage adminPage;
 
-    protected UserRegistrationPage userRegistrationPage() {
-        if (userRegistrationPage == null) {
-            userRegistrationPage = new UserRegistrationPage();
-        }
-        return userRegistrationPage;
-    }
-
-    protected MarriageRegistrationPage marriageRegistrationPage() {
-        if (marriageRegistrationPage == null) {
-            marriageRegistrationPage = new MarriageRegistrationPage();
-        }
-        return marriageRegistrationPage;
-    }
-
-    protected BirthRegistrationPage birthRegistrationPage() {
-        if (birthRegistrationPage == null) {
-            birthRegistrationPage = new BirthRegistrationPage();
-        }
-        return birthRegistrationPage;
-    }
-
-    protected DeathRegistrationPage deathRegistrationPage() {
-        if (deathRegistrationPage == null) {
-            deathRegistrationPage = new DeathRegistrationPage();
-        }
-        return deathRegistrationPage;
-    }
-
-    protected AdminPage adminPage() {
-        if (adminPage == null) {
-            adminPage = new AdminPage();
-        }
-        return adminPage;
-    }
+    protected PageManager pages = new PageManager();
 
     @Step("Подготовка окружения и запуск браузера")
     @BeforeEach
@@ -80,6 +42,8 @@ public class BaseTest {
     @AfterEach
     public void tearDown() {
         logger.info("[TEARDOWN] <<< Закрытие тестового окружения >>>");
+        pages.resetPages();
+        logger.info("Страницы очищены.");
         try {
             WebDriverSingleton.quit();
             logger.info("[TEARDOWN] Браузер закрыт корректно.");

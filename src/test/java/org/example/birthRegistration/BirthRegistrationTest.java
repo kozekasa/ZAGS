@@ -36,24 +36,24 @@ public class BirthRegistrationTest extends BaseTest {
         logger.info("Тестовые данные для регистрации рождения сгенерированы.");
 
         logger.info("Шаг 1: Регистрация пользователя...");
-        userRegistrationPage().StartRegistration();
-        userRegistrationPage().FillUserForm(user);
-        userRegistrationPage().nextStep().click();
+        pages.userRegistrationPage().StartRegistration();
+        pages.userRegistrationPage().FillUserForm(user);
+        pages.userRegistrationPage().nextStep().click();
         logger.info("Данные пользователя (родителя) заполнены.");
 
         logger.info("Шаг 2: Выбор услуги и заполнение данных гражданина...");
-        birthRegistrationPage().chooseBirthRegistration();
-        birthRegistrationPage().fillCitizenForm(citizen);
-        birthRegistrationPage().nextStep().click();
+        pages.birthRegistrationPage().chooseBirthRegistration();
+        pages.birthRegistrationPage().fillCitizenForm(citizen);
+        pages.birthRegistrationPage().nextStep().click();
         logger.info("Данные гражданина успешно внесены.");
 
         logger.info("Шаг 3: Заполнение специфических данных услуги рождения...");
-        birthRegistrationPage().fillBirthRegistrationServiceForm(serviceData);
-        birthRegistrationPage().finishButton().click();
+        pages.birthRegistrationPage().fillBirthRegistrationServiceForm(serviceData);
+        pages.birthRegistrationPage().finishButton().click();
         logger.info("Заявка на регистрацию рождения отправлена.");
 
         logger.info("Финальный шаг: Проверка статуса заявки...");
-        String actualStatus = birthRegistrationPage().applicationStatus().getText();
+        String actualStatus = pages.birthRegistrationPage().applicationStatus().getText();
         logger.info("Фактический статус из системы: '{}'", actualStatus);
 
         Assertions.assertEquals("Статус заявки: На рассмотрении.", actualStatus,

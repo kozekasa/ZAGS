@@ -31,13 +31,13 @@ public class GetStatusByApplicationNumberTest extends BaseTest {
         logger.info("Используемые данные: номер заявки '{}'", applicationNumber);
 
         logger.info("Шаг 1: Авторизация администратора...");
-        adminPage().StartRegistration();
-        adminPage().FillAdminForm(admin);
-        adminPage().nextStep().click();
+        pages.adminPage().StartRegistration();
+        pages.adminPage().FillAdminForm(admin);
+        pages.adminPage().nextStep().click();
         logger.info("Авторизация выполнена успешно.");
 
         logger.info("Шаг 2: Поиск статуса для заявки №{}...", applicationNumber);
-        String actualStatus = adminPage().getStatusByApplicationNumber(applicationNumber);
+        String actualStatus = pages.adminPage().getStatusByApplicationNumber(applicationNumber);
 
         logger.info("Результат поиска: заявка №{} имеет статус '{}'", applicationNumber, actualStatus);
 
