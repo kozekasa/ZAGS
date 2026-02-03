@@ -3,6 +3,7 @@ package org.example.birthRegistration;
 import io.qameta.allure.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.driver.WebDriverSingleton;
 import org.example.marriageRegistration.MarriageRegistrationTest;
@@ -14,40 +15,9 @@ import org.example.pages.MarriageRegistrationPage;
 import org.example.pages.UserRegistrationPage;
 import org.junit.jupiter.api.*;
 
-public class BirthRegistrationTest {
+public class BirthRegistrationTest extends BaseTest {
 
-    private UserRegistrationPage userRegistrationPage;
-    private BirthRegistrationPage birthRegistrationPage;
     private static final Logger logger = LogManager.getLogger(BirthRegistrationTest.class);
-
-    @Step("Открытие главной страницы и подготовка окружения")
-    @BeforeEach
-    public void setup() {
-        logger.info("<<< Подготовка к запуску теста... >>>");
-
-        String url = WebDriverSingleton.getEnv("BASE_URL");
-        if (url == null || url.isEmpty()) {
-            logger.error("BASE_URL не найден в конфигурации .env!");
-        } else {
-            logger.info("Открытие базового URL: {}", url);
-        }
-
-        try {
-            WebDriverSingleton.getDriver().get(url);
-            logger.info("Браузер успешно перешел на страницу: {}", url);
-
-            userRegistrationPage = new UserRegistrationPage();
-            birthRegistrationPage = new BirthRegistrationPage();
-
-            logger.info("Страницы инициализированы успешно.");
-        } catch (Exception e) {
-            logger.error("Ошибка при подготовке к запуску теста: {}", e.getMessage());
-            throw e;
-        }
-        logger.info("=== Подготовка к запуску теста завершена ===");
-    }
-
-
 
     @Owner("Aleksandr")
     @Test
@@ -66,42 +36,29 @@ public class BirthRegistrationTest {
         logger.info("Тестовые данные для регистрации рождения сгенерированы.");
 
         logger.info("Шаг 1: Регистрация пользователя...");
-        userRegistrationPage.StartRegistration();
-        userRegistrationPage.FillUserForm(user);
-        userRegistrationPage.nextStep().click();
+        userRegistrationPage().StartRegistration();
+        userRegistrationPage().FillUserForm(user);
+        userRegistrationPage().nextStep().click();
         logger.info("Данные пользователя (родителя) заполнены.");
 
         logger.info("Шаг 2: Выбор услуги и заполнение данных гражданина...");
-        birthRegistrationPage.chooseBirthRegistration();
-        birthRegistrationPage.fillCitizenForm(citizen);
-        birthRegistrationPage.nextStep().click();
+        birthRegistrationPage().chooseBirthRegistration();
+        birthRegistrationPage().fillCitizenForm(citizen);
+        birthRegistrationPage().nextStep().click();
         logger.info("Данные гражданина успешно внесены.");
 
         logger.info("Шаг 3: Заполнение специфических данных услуги рождения...");
-        birthRegistrationPage.fillBirthRegistrationServiceForm(serviceData);
-        birthRegistrationPage.finishButton().click();
+        birthRegistrationPage().fillBirthRegistrationServiceForm(serviceData);
+        birthRegistrationPage().finishButton().click();
         logger.info("Заявка на регистрацию рождения отправлена.");
 
         logger.info("Финальный шаг: Проверка статуса заявки...");
-        String actualStatus = birthRegistrationPage.applicationStatus().getText();
+        String actualStatus = birthRegistrationPage().applicationStatus().getText();
         logger.info("Фактический статус из системы: '{}'", actualStatus);
 
         Assertions.assertEquals("Статус заявки: На рассмотрении.", actualStatus,
                 "Статус заявки не корректен или заявка не была создана!");
 
         logger.info("=== Завершение теста: статус подтвержден успешно! ===");
-    }
-
-    @Step("Завершение теста. Закрытие браузера")
-    @AfterEach
-    public void tearDown() {
-        logger.info("<<< Закрытие тестового окружения >>>");
-        try {
-            WebDriverSingleton.quit();
-            logger.info("Браузер закрыт корректно.");
-        } catch (Exception e) {
-            logger.error("Ошибка при закрытии браузера: {}", e.getMessage());
-        }
-        logger.info("=== Сессия завершена ===");
     }
 }
