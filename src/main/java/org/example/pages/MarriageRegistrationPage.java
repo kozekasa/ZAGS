@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.driver.WebDriverSingleton;
 import org.example.elements.NavigationButton;
 import org.example.elements.StatusField;
@@ -72,10 +73,12 @@ public class MarriageRegistrationPage extends BasePage {
     @FindBy(xpath = "//span[contains(., 'Ваша заявка №')]")
     private WebElement orderNumber;
 
+    @Step("Нажатие кнопки: Регистрация брака")
     public void chooseMarriageRegistration() {
         marriageRegistrationButton.click();
     }
 
+    @Step("Заполнение формы: Данные гражданина")
     public void fillCitizenForm(CitizenData citizen) {
         setValue(surnameField, citizen.getSurname());
         setValue(nameField, citizen.getName());
@@ -86,10 +89,12 @@ public class MarriageRegistrationPage extends BasePage {
         setValue(registrationAddressField, citizen.getRegistrationAddress());
     }
 
+    @Step("Нажатие кнопки: Далее")
     public NavigationButton nextStep() {
         return new NavigationButton(nextPageButton);
     }
 
+    @Step("Заполнение формы: Данные услуги")
     public void fillMarriageRegistrationServiceForm(MarriageRegistrationServiceData serviceData) {
         setValue(dateOfRegistration, serviceData.getDateOfRegistration());
         setValue(newSurname, serviceData.getNewSurname());
@@ -100,22 +105,13 @@ public class MarriageRegistrationPage extends BasePage {
         setValue(spousePassportNumber, serviceData.getSpousePassportNumber());
     }
 
+    @Step("Нажатие кнопки: Завершить")
     public NavigationButton finishButton() {
         return new NavigationButton(finishButton);
     }
 
+    @Step("Получение статуса оформленной заявки")
     public StatusField applicationStatus() {
         return new StatusField(statusLabel);
-    }
-
-    public String getOrderNumber() {
-
-        String fullText = orderNumber.getText();
-        String orderNumber = fullText.replaceAll("[^0-9]", "");
-
-        if (orderNumber.isEmpty()) {
-            throw new RuntimeException("Не удалось извлечь номер заявки из текста: " + fullText);
-        }
-        return orderNumber;
     }
 }

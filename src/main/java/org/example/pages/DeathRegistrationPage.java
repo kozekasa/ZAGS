@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.driver.WebDriverSingleton;
 import org.example.elements.NavigationButton;
 import org.example.elements.StatusField;
@@ -54,10 +55,12 @@ public class DeathRegistrationPage extends BasePage {
     @FindBy(xpath = "//*[text()='На рассмотрении']")
     private WebElement statusLabel;
 
+    @Step("Нажатие кнопки: Регистрация смерти")
     public void chooseDeathRegistration() {
         deathRegistrationButton.click();
     }
 
+    @Step("Заполнение формы: Данные гражданина")
     public void fillCitizenForm(CitizenData citizen) {
         setValue(surnameField, citizen.getSurname());
         setValue(nameField, citizen.getName());
@@ -68,19 +71,23 @@ public class DeathRegistrationPage extends BasePage {
         setValue(registrationAddressField, citizen.getRegistrationAddress());
     }
 
+    @Step("Нажатие кнопки: Далее")
     public NavigationButton nextStep() {
         return new NavigationButton(nextPageButton);
     }
 
+    @Step("Заполнение формы: Данные услуги")
     public void fillDeathRegistrationServiceForm(DeathRegistrationServiceData serviceData) {
         setValue(dateOfDeath, serviceData.getDateOfDeath());
         setValue(placeOfDeath, serviceData.getPlaceOfDeath());
     }
 
+    @Step("Нажатие кнопки: Завершить")
     public NavigationButton finishButton() {
         return new NavigationButton(finishButton);
     }
 
+    @Step("Получение статуса оформленной заявки")
     public StatusField applicationStatus() {
         return new StatusField(statusLabel);
     }
