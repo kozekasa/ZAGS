@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.driver.WebDriverSingleton;
 import org.example.elements.NavigationButton;
 import org.example.elements.StatusField;
@@ -39,10 +40,12 @@ public class AdminPage extends BasePage {
     @FindBy(xpath = "//*[text()='Далее']")
     private WebElement nextPageButton;
 
+    @Step("Нажатие кнопки: Войти как администратор")
     public void StartRegistration() {
         loginAsAdminButton.click();
     }
 
+    @Step("Заполнение формы: Данные регистрации")
     public void FillAdminForm(AdminData admin) {
         setValue(surnameField, admin.getSurname());
         setValue(nameField, admin.getName());
@@ -52,10 +55,12 @@ public class AdminPage extends BasePage {
         setValue(dateOfBirthField, admin.getDateOfBirth());
     }
 
+    @Step("Нажатие кнопки: Далее")
     public NavigationButton nextStep() {
         return new NavigationButton(nextPageButton);
     }
 
+    @Step("Поиск статуса заявки по её номеру")
     public String getStatusByApplicationNumber(String applicationNumber) {
         String xpath = String.format("//tr[td[text()='%s']]//td[contains(., 'рассмотрении')]", applicationNumber);
 

@@ -1,55 +1,41 @@
 package org.example.marriageRegistration;
 
+import io.qameta.allure.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.BaseTest;
 import org.example.dataFactory.TestDataFactory;
-import org.example.driver.WebDriverSingleton;
 import org.example.models.CitizenData;
 import org.example.models.MarriageRegistrationServiceData;
 import org.example.models.UserData;
-import org.example.pages.MarriageRegistrationPage;
-import org.example.pages.UserRegistrationPage;
 import org.junit.jupiter.api.*;
 
-public class MarriageRegistrationTest {
-
-    private UserRegistrationPage userRegistrationPage;
-    private MarriageRegistrationPage marriageRegistrationPage;
-
-    @BeforeEach
-    public void setup() {
-        String url = WebDriverSingleton.getEnv("BASE_URL");
-        WebDriverSingleton.getDriver().get(url);
-
-        userRegistrationPage = new UserRegistrationPage();
-        marriageRegistrationPage = new MarriageRegistrationPage();
-    }
-
+public class MarriageRegistrationTest extends BaseTest {
+    @Owner("Aleksandr")
     @Test
     @Tag("user")
+    @Epic("ЗАГС")
+    @Feature("Регистрация брака")
+    @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Регистрация брака: успешное заполнение всех форм!")
     public void testSuccessfulMarriageRegistration() {
-
         UserData user = TestDataFactory.createDefaultUser();
         CitizenData citizen = TestDataFactory.createDefaultCitizen();
         MarriageRegistrationServiceData serviceData = TestDataFactory.createMarriageServiceData();
 
-        userRegistrationPage.StartRegistration();
-        userRegistrationPage.FillUserForm(user);
-        userRegistrationPage.nextStep().click();
+        pages.userRegistrationPage().StartRegistration();
+        pages.userRegistrationPage().FillUserForm(user);
+        pages.userRegistrationPage().nextStep().click();
 
-        marriageRegistrationPage.chooseMarriageRegistration();
-        marriageRegistrationPage.fillCitizenForm(citizen);
-        marriageRegistrationPage.nextStep().click();
+        pages.marriageRegistrationPage().chooseMarriageRegistration();
+        pages.marriageRegistrationPage().fillCitizenForm(citizen);
+        pages.marriageRegistrationPage().nextStep().click();
 
-        marriageRegistrationPage.fillMarriageRegistrationServiceForm(serviceData);
-        marriageRegistrationPage.finishButton().click();
+        pages.marriageRegistrationPage().fillMarriageRegistrationServiceForm(serviceData);
+        pages.marriageRegistrationPage().finishButton().click();
 
-        String actualStatus = marriageRegistrationPage.applicationStatus().getText();
+        String actualStatus = pages.marriageRegistrationPage().applicationStatus().getText();
 
         Assertions.assertEquals("Статус заявки: На рассмотрении.", actualStatus, "Статус заявки не корректен или заявка не была создана!");
-    }
-
-    @AfterEach
-    public void tearDown() {
-        WebDriverSingleton.quit();
     }
 }

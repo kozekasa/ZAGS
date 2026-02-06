@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.driver.WebDriverSingleton;
 import org.example.elements.NavigationButton;
 import org.example.models.UserData;
@@ -37,10 +38,11 @@ public class UserRegistrationPage extends BasePage {
     @FindBy(xpath = "//*[text()='Далее']")
     private WebElement nextPageButton;
 
+    @Step("Нажатие кнопки: Войти как пользователь")
     public void StartRegistration() {
         loginAsUserButton.click();
     }
-
+    @Step("Заполнение формы: Данные заявителя")
     public void FillUserForm(UserData user) {
         setValue(surnameField, user.getSurname());
         setValue(nameField, user.getName());
@@ -49,7 +51,7 @@ public class UserRegistrationPage extends BasePage {
         setValue(passportNumberField, user.getPassportNumber());
         setValue(registrationAddressField, user.getRegistrationAddress());
     }
-
+    @Step("Нажатие кнопки: Далее")
     public NavigationButton nextStep() {
         return new NavigationButton(nextPageButton);
     }
