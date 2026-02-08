@@ -1,6 +1,7 @@
 package org.example.ui.admin;
 
 import io.qameta.allure.*;
+import org.example.api.CreateApplicationAPI;
 import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.AdminData;
@@ -16,13 +17,12 @@ public class GetStatusByApplicationNumberTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Регистрация администратора: проверка статуса заявки по её номеру")
     public void testAdminCheck() {
-        AdminData admin = TestDataFactory.createAdminForUI();
+        AdminData adminForUI = TestDataFactory.createAdminForUI();
 
-        //Пока не дошли до API, то номер захардкодил, потом будет просто его сюда передать.
-        String applicationNumber = "58458";
+        String applicationNumber = CreateApplicationAPI.createApplicationAndGetId();
 
         pages.adminPage().StartRegistration()
-                         .FillAdminForm(admin)
+                         .FillAdminForm(adminForUI)
                          .nextStep().click();
 
         String actualStatus = pages.adminPage().getStatusByApplicationNumber(applicationNumber);
