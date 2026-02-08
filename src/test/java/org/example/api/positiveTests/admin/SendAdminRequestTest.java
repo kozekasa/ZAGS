@@ -18,10 +18,10 @@ public class SendAdminRequestTest {
     @Test
     @Owner("Aleksandr")
     @Tag("API")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Успешное создание администратора (позитивный сценарий)")
     @Description("Проверка создания администратора с валидными данными и получение staffid")
-    public void testCreateAdminSuccess() {
+    public void sendAdminRequestTest() {
         AdminData admin = TestDataFactory.createAdminForAPI();
 
         Allure.step("Отправка POST запроса на создание администратора", () -> {

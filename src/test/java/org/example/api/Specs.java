@@ -9,6 +9,8 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.example.driver.WebDriverSingleton;
 
+import static org.hamcrest.Matchers.lessThan;
+
 public class Specs {
     public static RequestSpecification requestSpec() {
         String url = WebDriverSingleton.getEnv("BASE_URL");
@@ -33,6 +35,7 @@ public class Specs {
     public static ResponseSpecification responseSpecOK200() {
         return new ResponseSpecBuilder()
                 .expectStatusCode(200)
+                .expectResponseTime(lessThan(5000L))
                 .log(LogDetail.ALL)
                 .build();
     }
