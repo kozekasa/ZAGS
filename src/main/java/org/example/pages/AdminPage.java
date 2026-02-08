@@ -41,18 +41,20 @@ public class AdminPage extends BasePage {
     private WebElement nextPageButton;
 
     @Step("Нажатие кнопки: Войти как администратор")
-    public void StartRegistration() {
+    public AdminPage StartRegistration() {
         loginAsAdminButton.click();
+        return this;
     }
 
     @Step("Заполнение формы: Данные регистрации")
-    public void FillAdminForm(AdminData admin) {
+    public AdminPage FillAdminForm(AdminData admin) {
         setValue(surnameField, admin.getSurname());
         setValue(nameField, admin.getName());
         setValue(patronymicField, admin.getPatronymic());
         setValue(telephoneNumberField, admin.getTelephoneNumber());
         setValue(passportNumberField, admin.getPassportNumber());
         setValue(dateOfBirthField, admin.getDateOfBirth());
+        return this;
     }
 
     @Step("Нажатие кнопки: Далее")

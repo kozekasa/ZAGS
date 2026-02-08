@@ -1,9 +1,7 @@
-package org.example.deathRegistration;
+package org.example.ui.deathRegistration;
 
 import io.qameta.allure.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.BaseTest;
+import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.CitizenData;
 import org.example.models.DeathRegistrationServiceData;
@@ -16,25 +14,25 @@ public class DeathRegistrationTest extends BaseTest {
     @Test
     @Tag("user")
     @Epic("ЗАГС")
-    @Feature("Регистрация брака")
+    @Feature("Регистрация смерти")
     @Severity(SeverityLevel.BLOCKER)
-    @DisplayName("Регистрация рождения: успешное заполнение всех форм!")
+    @DisplayName("Регистрация смерти")
     public void testSuccessfulBirthRegistration() {
 
         UserData user = TestDataFactory.createDefaultUser();
         CitizenData citizen = TestDataFactory.createDefaultCitizen();
         DeathRegistrationServiceData serviceData = TestDataFactory.createDeathServiceData();
 
-        pages.userRegistrationPage().StartRegistration();
-        pages.userRegistrationPage().FillUserForm(user);
-        pages.userRegistrationPage().nextStep().click();
+        pages.userRegistrationPage().StartRegistration()
+                                    .FillUserForm(user)
+                                    .nextStep().click();
 
-        pages.deathRegistrationPage().chooseDeathRegistration();
-        pages.deathRegistrationPage().fillCitizenForm(citizen);
-        pages.deathRegistrationPage().nextStep().click();
+        pages.deathRegistrationPage().chooseDeathRegistration()
+                                     .fillCitizenForm(citizen)
+                                     .nextStep().click();
 
-        pages.deathRegistrationPage().fillDeathRegistrationServiceForm(serviceData);
-        pages.deathRegistrationPage().finishButton().click();
+        pages.deathRegistrationPage().fillDeathRegistrationServiceForm(serviceData)
+                                     .finishButton().click();
 
         String actualStatus = pages.deathRegistrationPage().applicationStatus().getText();
 

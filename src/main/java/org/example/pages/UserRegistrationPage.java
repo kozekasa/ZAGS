@@ -39,20 +39,23 @@ public class UserRegistrationPage extends BasePage {
     private WebElement nextPageButton;
 
     @Step("Нажатие кнопки: Войти как пользователь")
-    public void StartRegistration() {
+    public UserRegistrationPage StartRegistration() {
         loginAsUserButton.click();
+        return this;
     }
     @Step("Заполнение формы: Данные заявителя")
-    public void FillUserForm(UserData user) {
+    public UserRegistrationPage FillUserForm(UserData user) {
         setValue(surnameField, user.getSurname());
         setValue(nameField, user.getName());
         setValue(patronymicField, user.getPatronymic());
         setValue(telephoneNumberField, user.getTelephoneNumber());
         setValue(passportNumberField, user.getPassportNumber());
         setValue(registrationAddressField, user.getRegistrationAddress());
+        return this;
     }
+
     @Step("Нажатие кнопки: Далее")
-    public NavigationButton nextStep() {
+    public  NavigationButton nextStep() {
         return new NavigationButton(nextPageButton);
     }
 }
