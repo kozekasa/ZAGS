@@ -1,7 +1,7 @@
 package org.example.ui.admin;
 
 import io.qameta.allure.*;
-import org.example.api.CreateApplicationAPI;
+import org.example.api.UsefulAPI;
 import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.AdminData;
@@ -19,7 +19,7 @@ public class GetStatusByApplicationNumberTest extends BaseTest {
     public void testAdminCheck() {
         AdminData adminForUI = TestDataFactory.createAdminForUI();
 
-        String applicationNumber = CreateApplicationAPI.createApplicationAndGetId();
+        String applicationNumber = UsefulAPI.createApplicationAndGetId();
 
         pages.adminPage().StartRegistration()
                          .FillAdminForm(adminForUI)

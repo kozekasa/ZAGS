@@ -127,4 +127,14 @@ public class TestDataFactory {
                 "", "", "", "", "", "",
                 "2026-01-10", "Госпиталь №1");
     }
+
+    @Step("Подготовка данных для одобрения заявки №{appId}")
+    public static RequestProcessData approveRequest(int appId, int staffId) {
+        return new RequestProcessData(appId, staffId, "approved");
+    }
+
+    @Step("Подготовка данных для отклонения заявки №{appId}")
+    public static RequestProcessData rejectRequest(int appId, int staffId) {
+        return new RequestProcessData(appId, staffId, "rejected");
+    }
 }
