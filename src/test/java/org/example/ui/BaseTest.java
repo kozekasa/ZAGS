@@ -25,7 +25,7 @@ public class BaseTest {
         }
 
         try {
-            WebDriverSingleton.getDriver().get(url);
+            WebDriverSingleton.getDriverThreadLocal().get(url);
         } catch (Exception e) {
             LOGGER.error("[SETUP] Ошибка при подготовке к запуску теста: {}", e.getMessage());
             throw e;

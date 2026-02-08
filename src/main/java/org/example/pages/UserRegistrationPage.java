@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 public class UserRegistrationPage extends BasePage {
 
     public UserRegistrationPage() {
-        PageFactory.initElements(WebDriverSingleton.getDriver(), this);
+        PageFactory.initElements(WebDriverSingleton.getDriverThreadLocal(), this);
     }
 
     @FindBy(xpath = "//div/button[text()='Войти как пользователь']")

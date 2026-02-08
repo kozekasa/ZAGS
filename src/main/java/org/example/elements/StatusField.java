@@ -16,7 +16,7 @@ public class StatusField {
     }
 
     public String getText() {
-        new WebDriverWait(WebDriverSingleton.getDriver(), Duration.ofSeconds(5))
+        new WebDriverWait(WebDriverSingleton.getDriverThreadLocal(), Duration.ofSeconds(5))
                 .until(ExpectedConditions.visibilityOf(element));
         return element.getText();
     }

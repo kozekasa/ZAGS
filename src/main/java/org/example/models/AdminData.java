@@ -8,10 +8,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AdminData {
-    String surname;
-    String name;
-    String patronymic;
-    String telephoneNumber;
-    String passportNumber;
-    String dateOfBirth;
+    String personalLastName;
+    String personalFirstName;
+    String personalMiddleName;
+    String personalPhoneNumber;
+    String personalNumberOfPassport;
+    String dateofbirth;
 }

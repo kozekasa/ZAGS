@@ -13,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 public class AdminPage extends BasePage {
 
     public AdminPage() {
-        PageFactory.initElements(WebDriverSingleton.getDriver(), this);
+        PageFactory.initElements(WebDriverSingleton.getDriverThreadLocal(), this);
     }
 
     @FindBy(xpath = "//button[text()='Войти как администратор']")
@@ -48,12 +48,12 @@ public class AdminPage extends BasePage {
 
     @Step("Заполнение формы: Данные регистрации")
     public AdminPage FillAdminForm(AdminData admin) {
-        setValue(surnameField, admin.getSurname());
-        setValue(nameField, admin.getName());
-        setValue(patronymicField, admin.getPatronymic());
-        setValue(telephoneNumberField, admin.getTelephoneNumber());
-        setValue(passportNumberField, admin.getPassportNumber());
-        setValue(dateOfBirthField, admin.getDateOfBirth());
+        setValue(surnameField, admin.getPersonalLastName());
+        setValue(nameField, admin.getPersonalFirstName());
+        setValue(patronymicField, admin.getPersonalMiddleName());
+        setValue(telephoneNumberField, admin.getPersonalPhoneNumber());
+        setValue(passportNumberField, admin.getPersonalNumberOfPassport());
+        setValue(dateOfBirthField, admin.getDateofbirth());
         return this;
     }
 
@@ -66,7 +66,7 @@ public class AdminPage extends BasePage {
     public String getStatusByApplicationNumber(String applicationNumber) {
         String xpath = String.format("//tr[td[text()='%s']]//td[contains(., 'рассмотрении')]", applicationNumber);
 
-        WebElement statusCell = WebDriverSingleton.getDriver().findElement(By.xpath(xpath));
+        WebElement statusCell = WebDriverSingleton.getDriverThreadLocal().findElement(By.xpath(xpath));
         return new StatusField(statusCell).getText();
     }
 }

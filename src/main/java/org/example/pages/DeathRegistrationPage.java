@@ -13,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 public class DeathRegistrationPage extends BasePage {
 
     public DeathRegistrationPage() {
-        PageFactory.initElements(WebDriverSingleton.getDriver(), this);
+        PageFactory.initElements(WebDriverSingleton.getDriverThreadLocal(), this);
     }
 
     @FindBy(xpath = "//button[text()='Регистрация смерти']")

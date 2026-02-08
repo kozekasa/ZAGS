@@ -2,17 +2,12 @@ package org.example;
 
 import org.example.driver.WebDriverSingleton;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-
-import java.time.Duration;
 
 public class SeleniumTestsOfMarriageRegistration {
 
     public static void main(String[] args) {
 
-        WebDriver driver = WebDriverSingleton.getDriver();
+        WebDriver driver = WebDriverSingleton.getDriverThreadLocal();
 
         try {
             String baseUrl = WebDriverSingleton.getEnv("BASE_URL");

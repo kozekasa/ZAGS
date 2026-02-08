@@ -13,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 public class MarriageRegistrationPage extends BasePage {
 
     public MarriageRegistrationPage() {
-        PageFactory.initElements(WebDriverSingleton.getDriver(), this);
+        PageFactory.initElements(WebDriverSingleton.getDriverThreadLocal(), this);
     }
 
     @FindBy(xpath = "//button[text()='Регистрация брака']")

@@ -16,10 +16,10 @@ public class GetStatusByApplicationNumberTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Регистрация администратора: проверка статуса заявки по её номеру")
     public void testAdminCheck() {
-        AdminData admin = TestDataFactory.createDefaultAdmin();
+        AdminData admin = TestDataFactory.createAdminForUI();
 
         //Пока не дошли до API, то номер захардкодил, потом будет просто его сюда передать.
-        String applicationNumber = "58231";
+        String applicationNumber = "58458";
 
         pages.adminPage().StartRegistration()
                          .FillAdminForm(admin)
