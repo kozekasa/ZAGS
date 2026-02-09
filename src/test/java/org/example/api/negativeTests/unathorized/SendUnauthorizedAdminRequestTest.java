@@ -1,4 +1,4 @@
-package org.example.api.negativeTests;
+package org.example.api.negativeTests.unathorized;
 
 import io.qameta.allure.*;
 import org.example.api.Specs;
