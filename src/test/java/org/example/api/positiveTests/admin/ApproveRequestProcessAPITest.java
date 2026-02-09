@@ -4,7 +4,7 @@ import io.qameta.allure.*;
 import org.example.api.UsefulAPI;
 import org.example.api.Specs;
 import org.example.dataFactory.TestDataFactory;
-import org.example.models.RequestProcessData;
+import org.example.models.validData.RequestProcessData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class ApproveRequestProcessAPITest {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("API")
+    @Tag("api")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Одобрение заявки администратором")
     @Description("Создание заявки, создание администратора и одобрение этой заявки")

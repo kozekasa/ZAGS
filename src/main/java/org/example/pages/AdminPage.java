@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import org.example.driver.WebDriverSingleton;
 import org.example.elements.NavigationButton;
 import org.example.elements.StatusField;
-import org.example.models.AdminData;
+import org.example.models.validData.AdminData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

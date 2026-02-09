@@ -27,7 +27,7 @@ public class SendUnauthorizedGetApplStatusTest {
 
         Allure.step("Запрос статуса заявки №" + appId, () -> {
             given()
-                    .spec(Specs.requestSpec())
+                    .spec(Specs.unauthorizedRequestSpec())
                     .pathParam("appid", appId)
                     .when()
                     .get("/getApplStatus/{appid}")

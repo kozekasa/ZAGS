@@ -3,7 +3,7 @@ package org.example.pages;
 import io.qameta.allure.Step;
 import org.example.driver.WebDriverSingleton;
 import org.example.elements.NavigationButton;
-import org.example.models.UserData;
+import org.example.models.validData.UserData;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;

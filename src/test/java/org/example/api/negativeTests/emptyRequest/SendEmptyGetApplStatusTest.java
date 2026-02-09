@@ -27,7 +27,7 @@ public class SendEmptyGetApplStatusTest {
                     .when()
                     .post("/getApplStatus")
                     .then()
-                    .spec(Specs.responseSpec400());
+                    .spec(Specs.responseSpec404());
         });
     }
 }

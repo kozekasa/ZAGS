@@ -1,28 +1,30 @@
-package org.example.api.positiveTests.admin;
+package org.example.api.negativeTests.notAllFieldsInRequest;
 
 import io.qameta.allure.*;
 import org.example.api.Specs;
 import org.example.dataFactory.TestDataFactory;
+import org.example.models.invalidData.AdminDataWithoutName;
 import org.example.models.validData.AdminData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 @Epic("API")
-@Feature("Позитивные тесты")
-@Story("Создание администратора")
-public class SendAdminRequestTest {
+@Feature("Негативные тесты")
+@Story("Отсутствие всех полей в теле запроса")
+public class SendAdminRequestWithoutAllFieldsTest {
 
     @Test
     @Owner("Aleksandr")
     @Tag("api")
     @Severity(SeverityLevel.BLOCKER)
-    @DisplayName("Успешное создание администратора (позитивный сценарий)")
-    @Description("Проверка создания администратора с валидными данными и получение staffid")
+    @DisplayName("Ошибка регистрации администратора из-за отсутствия всех полей в теле запроса")
+    @Description("Проверка того, что запрос на регистрацию администратора из-за отсутствия всех полей в теле запроса возвращает 400 статус")
     public void sendAdminRequestTest() {
-        AdminData admin = TestDataFactory.createAdminForAPI();
+        AdminDataWithoutName admin = TestDataFactory.createAdminWithoutNameForAPI();
 
         Allure.step("Отправка POST запроса на создание администратора", () -> {
             given()
@@ -31,9 +33,7 @@ public class SendAdminRequestTest {
                     .when()
                     .post("/sendAdminRequest")
                     .then()
-                    .spec(Specs.responseSpecOK200())
-                    .body("data.staffid", notNullValue())
-                    .body("data.staffid", is(greaterThan(0)));
+                    .spec(Specs.responseSpec400());
         });
     }
 }

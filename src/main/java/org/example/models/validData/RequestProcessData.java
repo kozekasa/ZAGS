@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.models.validData;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

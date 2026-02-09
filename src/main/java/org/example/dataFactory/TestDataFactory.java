@@ -1,7 +1,10 @@
 package org.example.dataFactory;
 
 import io.qameta.allure.Step;
-import org.example.models.*;
+import org.example.models.invalidData.AdminDataWithoutName;
+import org.example.models.invalidData.RequestProcessDataWithoutApplid;
+import org.example.models.invalidData.UserDataWithoutNameFieldAPI;
+import org.example.models.validData.*;
 
 public class TestDataFactory {
 
@@ -133,8 +136,52 @@ public class TestDataFactory {
         return new RequestProcessData(appId, staffId, "approved");
     }
 
+    @Step("Подготовка данных для одобрения заявки №{appId}")
+    public static RequestProcessDataWithoutApplid approveRequestWithoutApplid(int staffId) {
+        return new RequestProcessDataWithoutApplid(staffId,"approved");
+    }
+
     @Step("Подготовка данных для отклонения заявки №{appId}")
     public static RequestProcessData rejectRequest(int appId, int staffId) {
         return new RequestProcessData(appId, staffId, "rejected");
+    }
+
+    @Step("Инициализация невалидных данных (отсутствие поля с именем) для заявки: Регистрация рождения")
+    public static UserDataWithoutNameFieldAPI createInvalidBirthRegistrationAPIRequest() {
+        return new UserDataWithoutNameFieldAPI(
+                "birth",
+                "Иванов",
+
+                "Иванович",
+                "37529111223",
+                "AB123456",
+                "Иванова",
+                "Мария",
+                "Ивановна",
+                "2026-02-01",
+                "",
+                "Female",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "Минск, РБ",
+                "Иванова А.С.",
+                "Иванов И.И.",
+                "",
+                "");
+    }
+
+    @Step("Инициализация невалидных данных (отсутствие поля с именем) для заявки: Регистрация рождения")
+    public static AdminDataWithoutName createAdminWithoutNameForAPI() {
+        return new AdminDataWithoutName(
+                "Иванов",
+                "Иванович",
+                "37529777777",
+                "АВ123456",
+                "2004-07-23");
     }
 }

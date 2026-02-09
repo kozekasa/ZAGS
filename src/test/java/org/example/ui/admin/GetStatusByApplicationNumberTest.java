@@ -4,7 +4,7 @@ import io.qameta.allure.*;
 import org.example.api.UsefulAPI;
 import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
-import org.example.models.AdminData;
+import org.example.models.validData.AdminData;
 import org.junit.jupiter.api.*;
 
 public class GetStatusByApplicationNumberTest extends BaseTest {

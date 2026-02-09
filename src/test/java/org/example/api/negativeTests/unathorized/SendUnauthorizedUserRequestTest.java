@@ -3,7 +3,7 @@ package org.example.api.negativeTests.unathorized;
 import io.qameta.allure.*;
 import org.example.api.Specs;
 import org.example.dataFactory.TestDataFactory;
-import org.example.models.UserDataAPI;
+import org.example.models.validData.UserDataAPI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class SendUnauthorizedUserRequestTest {
 
         Allure.step("Отправка POST запроса на /sendUserRequest", () -> {
             given()
-                    .spec(Specs.requestSpec())
+                    .spec(Specs.unauthorizedRequestSpec())
                     .body(userRequest)
                     .when()
                     .post("/sendUserRequest")

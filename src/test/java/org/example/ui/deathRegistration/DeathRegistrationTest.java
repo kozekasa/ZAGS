@@ -3,9 +3,9 @@ package org.example.ui.deathRegistration;
 import io.qameta.allure.*;
 import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
-import org.example.models.CitizenData;
-import org.example.models.DeathRegistrationServiceData;
-import org.example.models.UserData;
+import org.example.models.validData.CitizenData;
+import org.example.models.validData.DeathRegistrationServiceData;
+import org.example.models.validData.UserData;
 import org.junit.jupiter.api.*;
 
 

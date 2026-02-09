@@ -23,7 +23,7 @@ public class SendUnauthorizedGetApplicationsTest {
     public void sendUnauthorizedGetApplicationsTest() {
         Allure.step("Отправка GET запроса на /getApplications", () -> {
             given()
-                    .spec(Specs.requestSpec())
+                    .spec(Specs.unauthorizedRequestSpec())
                     .when()
                     .get("/getApplications")
                     .then()

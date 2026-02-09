@@ -3,8 +3,8 @@ package org.example.api;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.example.dataFactory.TestDataFactory;
-import org.example.models.AdminData;
-import org.example.models.UserDataAPI;
+import org.example.models.validData.AdminData;
+import org.example.models.validData.UserDataAPI;
 import static io.restassured.RestAssured.given;
 
 public class UsefulAPI {

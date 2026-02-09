@@ -3,7 +3,7 @@ package org.example.api.positiveTests.user;
 import io.qameta.allure.*;
 import org.example.api.Specs;
 import org.example.dataFactory.TestDataFactory;
-import org.example.models.UserDataAPI;
+import org.example.models.validData.UserDataAPI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

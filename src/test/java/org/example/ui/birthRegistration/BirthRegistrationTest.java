@@ -3,9 +3,9 @@ package org.example.ui.birthRegistration;
 import io.qameta.allure.*;
 import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
-import org.example.models.BirthRegistrationServiceData;
-import org.example.models.CitizenData;
-import org.example.models.UserData;
+import org.example.models.validData.BirthRegistrationServiceData;
+import org.example.models.validData.CitizenData;
+import org.example.models.validData.UserData;
 import org.junit.jupiter.api.*;
 
 public class BirthRegistrationTest extends BaseTest {
