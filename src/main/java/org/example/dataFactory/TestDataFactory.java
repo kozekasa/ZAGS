@@ -172,12 +172,48 @@ public class TestDataFactory {
                 .birth_father("Иванов И.И.");
     }
 
-    @Step("Инициализация невалидных данных (отсутствие поля с именем) для заявки: Регистрация рождения")
+    @Step("Инициализация невалидных данных (отсутствие поля с именем) для регистрации администратора")
     public static AdminData.AdminDataBuilder createAdminWithoutNameForAPI() {
         return AdminData.builder()
                 .personalLastName("Иванов")
                 .personalMiddleName("37529777777")
                 .personalPhoneNumber("37529777777")
-                .personalNumberOfPassport("АВ123456");
+                .personalNumberOfPassport("АВ123456")
+                .dateofbirth("2004-07-23");
+    }
+
+    @Step("Инициализация невалидных данных (слишком большая длина в поле фамилия) для заявки: Регистрация брака")
+    public static UserDataAPI.UserDataAPIBuilder createMarriageRegistrationWithInvalidDataAPIRequest() {
+        return UserDataAPI.builder()
+                .mode("wedding")
+                .personalLastName("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+                .personalFirstName("Иван")
+                .personalMiddleName("Иванович")
+                .personalPhoneNumber("37529111223")
+                .personalNumberOfPassport("AB123456")
+                .citizenLastName("Иванова")
+                .citizenFirstName("Мария")
+                .citizenMiddleName("Ивановна")
+                .citizenBirthDate("2026-02-01")
+                .citizenNumberOfPassport("AB123123")
+                .citizenGender("Female")
+                .dateOfMarriage("2026-06-20")
+                .newLastName("Иванова")
+                .anotherPersonLastName("Иванов")
+                .anotherPersonFirstName("Иван")
+                .anotherPersonMiddleName("Иванович")
+                .birth_of_anotoherPerson("1990-01-01")
+                .anotherPersonPassport("KH123456");
+    }
+
+    @Step("Инициализация невалидных данных (текст в поле дата рождения) для регистрации администратора")
+    public static AdminData.AdminDataBuilder createAdminWithInvalidDataForAPI() {
+        return AdminData.builder()
+                .personalLastName("Иванов")
+                .personalFirstName("Иван")
+                .personalMiddleName("37529777777")
+                .personalPhoneNumber("37529777777")
+                .personalNumberOfPassport("АВ123456")
+                .dateofbirth("thisIsDate");
     }
 }

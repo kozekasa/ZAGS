@@ -1,17 +1,20 @@
 package org.example.api.requestProcess;
 
 import io.qameta.allure.*;
+import io.restassured.common.mapper.TypeRef;
 import org.example.UsefulAPI;
+import org.example.models.ApplicationData;
+import org.example.models.BaseResponse;
 import org.example.specs.RequestSpecs;
 import org.example.specs.ResponseSpecs;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.RequestProcessData;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
 
 @Epic("API")
 @Feature("Управление статусом заявки")
@@ -19,7 +22,7 @@ public class RequestProcessPositiveTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("positive")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Подтверждение заявки")
     @DisplayName("Одобрение заявки администратором")
@@ -31,20 +34,24 @@ public class RequestProcessPositiveTests {
 
         RequestProcessData approveData = TestDataFactory.createRequestStatus(appId, staffId, "approved");
 
-        given()
+        ApplicationData response = given()
                 .spec(RequestSpecs.requestSpec())
                 .body(approveData)
                 .when()
                 .post("/requestProcess")
                 .then()
                 .spec(ResponseSpecs.successResponseSpec(200))
-                .body("data.applicationid", is(appId))
-                .body("data.statusofapplication", is("approved"));
+                .extract()
+                .as(new TypeRef<BaseResponse<ApplicationData>>() {})
+                .getData();
+
+        Assertions.assertEquals(appId, response.getApplicationid(), "ID заявки не совпадает");
+        Assertions.assertEquals("approved", response.getStatusofapplication(), "Статус не совпадает");
     }
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("positive")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Отклонение заявки")
     @DisplayName("Отклонение заявки администратором")
@@ -56,14 +63,17 @@ public class RequestProcessPositiveTests {
 
         RequestProcessData approveData = TestDataFactory.createRequestStatus(appId, staffId, "rejected");
 
-        given()
+        ApplicationData response = given()
                 .spec(RequestSpecs.requestSpec())
                 .body(approveData)
                 .when()
                 .post("/requestProcess")
                 .then()
                 .spec(ResponseSpecs.successResponseSpec(200))
-                .body("data.applicationid", is(appId))
-                .body("data.statusofapplication", is("rejected"));
+                .extract()
+                .as(new TypeRef<BaseResponse<ApplicationData>>() {})
+                .getData();
+        Assertions.assertEquals(appId, response.getApplicationid(), "ID заявки не совпадает");
+        Assertions.assertEquals("rejected", response.getStatusofapplication(), "Статус не совпадает");
     }
 }

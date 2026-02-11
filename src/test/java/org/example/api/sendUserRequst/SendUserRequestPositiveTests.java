@@ -1,10 +1,14 @@
 package org.example.api.sendUserRequst;
 
 import io.qameta.allure.*;
+import io.restassured.common.mapper.TypeRef;
 import org.example.dataFactory.TestDataFactory;
+import org.example.models.ApplicationData;
+import org.example.models.BaseResponse;
 import org.example.models.UserDataAPI;
 import org.example.specs.RequestSpecs;
 import org.example.specs.ResponseSpecs;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,7 +23,7 @@ public class SendUserRequestPositiveTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("positive")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Создание заявки: Регистрация рождения")
     @DisplayName("Успешное создание новой заявки: Регистрация рождения")
@@ -27,19 +31,23 @@ public class SendUserRequestPositiveTests {
     public void testBirthRegistrationAPIRequest() {
         UserDataAPI userRequest = TestDataFactory.createBirthRegistrationAPIRequest().build();
 
-        given()
+        ApplicationData response = given()
                 .spec(RequestSpecs.requestSpec())
                 .body(userRequest)
                 .when()
                 .post("/sendUserRequest")
                 .then()
                 .spec(ResponseSpecs.successResponseSpec(200))
-                .body("data.applicationid", notNullValue());
+                .extract()
+                .as(new TypeRef<BaseResponse<ApplicationData>>() {})
+                .getData();
+
+        Assertions.assertNotNull(response.getApplicationid(), "ID заявки не должен быть равен 0");
     }
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("positive")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Создание заявки: Регистрация брака")
     @DisplayName("Успешное создание новой заявки: Регистрация брака")
@@ -47,19 +55,23 @@ public class SendUserRequestPositiveTests {
     public void testMarriageRegistrationAPIRequest() {
         UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
 
-        given()
+        ApplicationData response = given()
                 .spec(RequestSpecs.requestSpec())
                 .body(userRequest)
                 .when()
                 .post("/sendUserRequest")
                 .then()
                 .spec(ResponseSpecs.successResponseSpec(200))
-                .body("data.applicationid", notNullValue());
+                .extract()
+                .as(new TypeRef<BaseResponse<ApplicationData>>() {})
+                .getData();
+
+        Assertions.assertNotNull(response.getApplicationid(), "ID заявки не должен быть равен 0");
     }
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("positive")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Создание заявки: Регистрация смерти")
     @DisplayName("Успешное создание новой заявки: Регистрация смерти")
@@ -67,13 +79,17 @@ public class SendUserRequestPositiveTests {
     public void testDeathRegistrationAPIRequest() {
         UserDataAPI userRequest = TestDataFactory.createDeathRegistrationAPIRequest().build();
 
-        given()
+        ApplicationData response = given()
                 .spec(RequestSpecs.requestSpec())
                 .body(userRequest)
                 .when()
                 .post("/sendUserRequest")
                 .then()
                 .spec(ResponseSpecs.successResponseSpec(200))
-                .body("data.applicationid", notNullValue());
+                .extract()
+                .as(new TypeRef<BaseResponse<ApplicationData>>() {})
+                .getData();
+
+        Assertions.assertNotNull(response.getApplicationid(), "ID заявки не должен быть равен 0");
     }
 }

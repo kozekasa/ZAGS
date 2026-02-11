@@ -15,7 +15,7 @@ public class GetApplicationsNegativeTest {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Неавторизованный запрос")
     @DisplayName("Ошибка создания получения списка заявок без авторизации")

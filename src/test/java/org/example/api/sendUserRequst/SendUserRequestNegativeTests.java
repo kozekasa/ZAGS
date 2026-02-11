@@ -18,7 +18,7 @@ public class SendUserRequestNegativeTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Пустое тело запроса")
     @DisplayName("Ошибка при отправке запроса на создание заявки с пустым телом")
@@ -35,7 +35,7 @@ public class SendUserRequestNegativeTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Неавторизованный запрос")
     @DisplayName("Ошибка создания заявки без авторизации")
@@ -55,7 +55,7 @@ public class SendUserRequestNegativeTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Не все поля в теле запроса")
     @DisplayName("Ошибка создания заявки из-за отсутствия всех полей в теле запроса")
@@ -70,5 +70,24 @@ public class SendUserRequestNegativeTests {
                 .post("/sendUserRequest")
                 .then()
                 .spec(ResponseSpecs.errorResponseSpec(400));
+    }
+
+    @Test
+    @Owner("Aleksandr")
+    @Tag("negative")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Невалидные данные в поле фамилия")
+    @DisplayName("Ошибка создания заявки из-за превышения допустимого количества символов в поле")
+    @Description("Проверка того, что запрос на создание заявки из-за превышения допустимой длины символов в поле возвращает 500 статус")
+    public void sendUserRequestWithInvalidDataTest() {
+        UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationWithInvalidDataAPIRequest().build();
+
+        given()
+                .spec(RequestSpecs.requestSpec())
+                .body(userRequest)
+                .when()
+                .post("/sendUserRequest")
+                .then()
+                .spec(ResponseSpecs.errorResponseSpec(500));
     }
 }

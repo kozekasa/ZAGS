@@ -20,7 +20,7 @@ public class RequestProcessNegativeTest {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Неавторизованный запрос")
     @DisplayName("Ошибка изменения статуса заявки без авторизации")
@@ -43,7 +43,7 @@ public class RequestProcessNegativeTest {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Пустое тело запроса")
     @DisplayName("Ошибка при отправке запроса на изменение статуса заявки с пустым телом")
@@ -59,7 +59,7 @@ public class RequestProcessNegativeTest {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Не все поля в теле запроса")
     @DisplayName("Ошибка изменения статуса заявки из-за отсутствия всех полей в теле запроса")
@@ -69,6 +69,28 @@ public class RequestProcessNegativeTest {
         int staffId = UsefulAPI.createStaffAndGetId();
 
         RequestProcessData requestData = TestDataFactory.createRequestWithoutApplidBuilder(staffId, "approved").build();
+
+        given()
+                .spec(RequestSpecs.requestSpec())
+                .body(requestData)
+                .when()
+                .post("/requestProcess")
+                .then()
+                .spec(ResponseSpecs.errorResponseSpec(500));
+    }
+
+    @Test
+    @Owner("Aleksandr")
+    @Tag("negative")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Невалидные данные в теле запроса")
+    @DisplayName("Ошибка изменения статуса заявки из-за невалидных данных в теле запроса")
+    @Description("Проверка того, что запрос на изменение статуса заявки из-за невалидного статуса заявки в теле запроса возвращает 500 статус")
+    public void sendRequestProcessWithInvalidDataTest() {
+
+        int staffId = UsefulAPI.createStaffAndGetId();
+
+        RequestProcessData requestData = TestDataFactory.createRequestWithoutApplidBuilder(staffId, "not approved").build();
 
         given()
                 .spec(RequestSpecs.requestSpec())

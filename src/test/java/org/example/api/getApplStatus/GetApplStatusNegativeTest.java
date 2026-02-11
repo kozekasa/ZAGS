@@ -17,7 +17,7 @@ public class GetApplStatusNegativeTest {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Пустое тело запроса")
     @DisplayName("Ошибка при отправке запроса на получение статуса заявки с пустым телом")
@@ -26,14 +26,14 @@ public class GetApplStatusNegativeTest {
         given()
                 .spec(RequestSpecs.requestSpec())
                 .when()
-                .post("/getApplStatus")
+                .get("/getApplStatus")
                 .then()
                 .spec(ResponseSpecs.errorResponseSpec(404));
     }
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Неавторизованный запрос")
     @DisplayName("Ошибка создания получения статуса заявки без авторизации")
@@ -49,5 +49,24 @@ public class GetApplStatusNegativeTest {
                 .get("/getApplStatus/{appid}")
                 .then()
                 .spec(ResponseSpecs.errorResponseSpec(401));
+    }
+
+    @Test
+    @Owner("Aleksandr")
+    @Tag("negative")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Невалидные данные в теле запроса")
+    @DisplayName("Ошибка при отправке запроса на получение статуса заявки с невалидными данными в теле запроса")
+    @Description("Проверка того, что запрос на получение статуса заявки с текстом вместо номера заявки в теле запроса возвращает 500 статус")
+    public void sendEmptyGetApplStatusWithInvalidDataTest() {
+        String appId = "number";
+
+        given()
+                .spec(RequestSpecs.requestSpec())
+                .pathParam("appid", appId)
+                .when()
+                .get("/getApplStatus/{appid}")
+                .then()
+                .spec(ResponseSpecs.errorResponseSpec(500));
     }
 }

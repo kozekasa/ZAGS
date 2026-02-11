@@ -17,7 +17,7 @@ public class SendAdminRequestNegativeTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Не все поля в теле запроса")
     @DisplayName("Ошибка регистрации администратора из-за отсутствия всех полей в теле запроса")
@@ -36,7 +36,7 @@ public class SendAdminRequestNegativeTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Пустое тело запроса")
     @DisplayName("Ошибка при отправке запроса на регистрацию администратора с пустым телом")
@@ -52,7 +52,7 @@ public class SendAdminRequestNegativeTests {
 
     @Test
     @Owner("Aleksandr")
-    @Tag("api")
+    @Tag("negative")
     @Severity(SeverityLevel.BLOCKER)
     @Story("Неавторизованный запрос")
     @DisplayName("Ошибка создания администратора без авторизации")
@@ -67,5 +67,24 @@ public class SendAdminRequestNegativeTests {
                 .post("/sendAdminRequest")
                 .then()
                 .spec(ResponseSpecs.errorResponseSpec(401));
+    }
+
+    @Test
+    @Owner("Aleksandr")
+    @Tag("negative")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Невалидные данные в теле запроса")
+    @DisplayName("Ошибка регистрации администратора из-за неверного формата данных в теле запроса")
+    @Description("Проверка того, что запрос на регистрацию администратора из-за из-за неверного формата данных в поле дата рождения в теле запроса возвращает 500 статус")
+    public void sendAdminRequestWithInvalidDataTest() {
+        AdminData admin = TestDataFactory.createAdminWithInvalidDataForAPI().build();
+
+        given()
+                .spec(RequestSpecs.requestSpec())
+                .body(admin)
+                .when()
+                .post("/sendAdminRequest")
+                .then()
+                .spec(ResponseSpecs.errorResponseSpec(500));
     }
 }
