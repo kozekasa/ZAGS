@@ -30,13 +30,11 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.10.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.10.1</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -90,6 +88,18 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.18.3</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.26.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -122,7 +132,7 @@
                             junit.jupiter.execution.parallel.mode.default = concurrent
                             junit.jupiter.execution.parallel.mode.classes.default = concurrent
                             junit.jupiter.execution.parallel.config.strategy = fixed
-                            junit.jupiter.execution.parallel.config.fixed.parallelism = 2
+                            junit.jupiter.execution.parallel.config.fixed.parallelism = 16
                         </configurationParameters>
                     </properties>
                     <testFailureIgnore>false</testFailureIgnore>

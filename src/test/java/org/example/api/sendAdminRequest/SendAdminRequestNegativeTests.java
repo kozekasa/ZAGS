@@ -1,10 +1,12 @@
 package org.example.api.sendAdminRequest;
 
 import io.qameta.allure.*;
+import io.restassured.response.Response;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.AdminData;
 import org.example.specs.RequestSpecs;
 import org.example.specs.ResponseSpecs;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -25,13 +27,17 @@ public class SendAdminRequestNegativeTests {
     public void sendAdminRequestWithoutAllFieldsTest() {
         AdminData admin = TestDataFactory.createAdminWithoutNameForAPI().build();
 
-        given()
+        Response response = given()
                 .spec(RequestSpecs.requestSpec())
                 .body(admin)
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(400));
+                .spec(ResponseSpecs.errorResponseSpec(400))
+                .extract()
+                .response();
+
+        Assertions.assertEquals(400, response.getStatusCode(), "Код ответа должен быть 400 Bad Request");
     }
 
     @Test
@@ -42,12 +48,16 @@ public class SendAdminRequestNegativeTests {
     @DisplayName("Ошибка при отправке запроса на регистрацию администратора с пустым телом")
     @Description("Проверка того, что запрос на регистрацию админа с пустым телом возвращает 400 статус")
     public void sendEmptyAdminRequestTest() {
-        given()
+        Response response = given()
                 .spec(RequestSpecs.requestSpec())
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(400));
+                .spec(ResponseSpecs.errorResponseSpec(400))
+                .extract()
+                .response();
+
+        Assertions.assertEquals(400, response.getStatusCode(), "Код ответа должен быть 400 Bad Request");
     }
 
     @Test
@@ -60,13 +70,17 @@ public class SendAdminRequestNegativeTests {
     public void sendUnauthorizedAdminRequestTest() {
         AdminData admin = TestDataFactory.createAdminForAPI();
 
-        given()
+        Response response = given()
                 .spec(RequestSpecs.unauthorizedRequestSpec())
                 .body(admin)
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(401));
+                .spec(ResponseSpecs.errorResponseSpec(401))
+                .extract()
+                .response();
+
+        Assertions.assertEquals(401, response.getStatusCode(), "Код ответа должен быть 401 Unauthorized");
     }
 
     @Test
@@ -79,12 +93,16 @@ public class SendAdminRequestNegativeTests {
     public void sendAdminRequestWithInvalidDataTest() {
         AdminData admin = TestDataFactory.createAdminWithInvalidDataForAPI().build();
 
-        given()
+        Response response = given()
                 .spec(RequestSpecs.requestSpec())
                 .body(admin)
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(500));
+                .spec(ResponseSpecs.errorResponseSpec(500))
+                .extract()
+                .response();
+
+        Assertions.assertEquals(500, response.getStatusCode(), "Код ответа должен быть 500 Internal Server Error");
     }
 }

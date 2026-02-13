@@ -38,7 +38,9 @@ public class SendAdminRequestPositiveTest {
                 .as(new TypeRef<BaseResponse<ApplicationData>>() {})
                 .getData();
 
-        Assertions.assertNotNull(response.getStaffid(), "Staff ID не должен быть null");
-        Assertions.assertTrue(response.getStaffid() > 0,"Staff ID должен быть больше 0");
+        Assertions.assertAll("Проверка данных заявки",
+                () -> Assertions.assertNotNull(response.getStaffid(), "Staff ID не должен быть null"),
+                () -> Assertions.assertTrue(response.getStaffid() > 0,"Staff ID должен быть больше 0")
+        );
     }
 }

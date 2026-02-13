@@ -2,9 +2,10 @@ package org.example.api.requestProcess;
 
 import io.qameta.allure.*;
 import io.restassured.common.mapper.TypeRef;
-import org.example.UsefulAPI;
+import org.example.ApiPreconditions;
 import org.example.models.ApplicationData;
 import org.example.models.BaseResponse;
+import org.example.models.UserDataAPI;
 import org.example.specs.RequestSpecs;
 import org.example.specs.ResponseSpecs;
 import org.example.dataFactory.TestDataFactory;
@@ -28,9 +29,11 @@ public class RequestProcessPositiveTests {
     @DisplayName("Одобрение заявки администратором")
     @Description("Создание заявки, создание администратора и одобрение этой заявки")
     public void approveRequestProcessAPITest() {
-        int appId = UsefulAPI.createApplicationAndGetIntId();
+        UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
 
-        int staffId = UsefulAPI.createStaffAndGetId();
+        int appId = ApiPreconditions.createApplicationAndGetIntId(userRequest);
+
+        int staffId = ApiPreconditions.createStaffAndGetId();
 
         RequestProcessData approveData = TestDataFactory.createRequestStatus(appId, staffId, "approved");
 
@@ -44,9 +47,10 @@ public class RequestProcessPositiveTests {
                 .extract()
                 .as(new TypeRef<BaseResponse<ApplicationData>>() {})
                 .getData();
-
-        Assertions.assertEquals(appId, response.getApplicationid(), "ID заявки не совпадает");
-        Assertions.assertEquals("approved", response.getStatusofapplication(), "Статус не совпадает");
+        Assertions.assertAll("Проверка данных заявки",
+                () -> Assertions.assertEquals(appId, response.getApplicationid(), "ID заявки не совпадает"),
+                () -> Assertions.assertEquals("approved", response.getStatusofapplication(), "Статус не совпадает")
+        );
     }
 
     @Test
@@ -57,9 +61,11 @@ public class RequestProcessPositiveTests {
     @DisplayName("Отклонение заявки администратором")
     @Description("Создание заявки, создание администратора и отклонение этой заявки")
     public void rejectRequestProcessAPITest() {
-        int appId = UsefulAPI.createApplicationAndGetIntId();
+        UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
 
-        int staffId = UsefulAPI.createStaffAndGetId();
+        int appId = ApiPreconditions.createApplicationAndGetIntId(userRequest);
+
+        int staffId = ApiPreconditions.createStaffAndGetId();
 
         RequestProcessData approveData = TestDataFactory.createRequestStatus(appId, staffId, "rejected");
 
@@ -71,9 +77,13 @@ public class RequestProcessPositiveTests {
                 .then()
                 .spec(ResponseSpecs.successResponseSpec(200))
                 .extract()
-                .as(new TypeRef<BaseResponse<ApplicationData>>() {})
+                .as(new TypeRef<BaseResponse<ApplicationData>>() {
+                })
                 .getData();
-        Assertions.assertEquals(appId, response.getApplicationid(), "ID заявки не совпадает");
-        Assertions.assertEquals("rejected", response.getStatusofapplication(), "Статус не совпадает");
+
+        Assertions.assertAll("Проверка данных заявки",
+                () -> Assertions.assertEquals(appId, response.getApplicationid(), "ID заявки не совпадает"),
+                () -> Assertions.assertEquals("rejected", response.getStatusofapplication(), "Статус не совпадает")
+        );
     }
 }

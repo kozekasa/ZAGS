@@ -10,7 +10,7 @@ import org.example.specs.ResponseSpecs;
 
 import static io.restassured.RestAssured.given;
 
-public class UsefulAPI {
+public class ApiPreconditions {
 
     @Step("API: Создание заявки и получение её ID")
     public static String createApplicationAndGetId() {
@@ -30,10 +30,9 @@ public class UsefulAPI {
         });
     }
 
-    public static int createApplicationAndGetIntId() {
-        UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
-
-        return Allure.step("API: Создание заявки и получение её ID", () -> {
+    @Step("API: Создание заявки и получение её ID")
+    public static int createApplicationAndGetIntId(UserDataAPI userRequest) {
+        return Allure.step("Отправка POST запроса с кастомными данными", () -> {
             return given()
                     .spec(RequestSpecs.requestSpec())
                     .body(userRequest)
@@ -46,6 +45,7 @@ public class UsefulAPI {
         });
     }
 
+    @Step("API: Регистрация администратора и получение его ID")
     public static int createStaffAndGetId() {
         AdminData admin = TestDataFactory.createAdminForAPI();
 

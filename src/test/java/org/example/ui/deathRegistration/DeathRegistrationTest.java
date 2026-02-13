@@ -1,7 +1,7 @@
 package org.example.ui.deathRegistration;
 
 import io.qameta.allure.*;
-import org.example.ui.BaseTest;
+import org.example.baseTests.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.CitizenData;
 import org.example.models.DeathRegistrationServiceData;
