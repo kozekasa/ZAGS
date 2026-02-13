@@ -44,7 +44,7 @@ public class PageManager {
         return adminPage;
     }
 
-    // Тот самый метод для обнуления всех страниц
+
     public void resetPages() {
         userRegistrationPage = null;
         marriageRegistrationPage = null;

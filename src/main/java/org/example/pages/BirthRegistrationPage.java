@@ -13,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 public class BirthRegistrationPage extends BasePage {
 
     public BirthRegistrationPage() {
-        PageFactory.initElements(WebDriverSingleton.getDriver(), this);
+        PageFactory.initElements(WebDriverSingleton.getDriverThreadLocal(), this);
     }
 
     @FindBy(xpath = "//button[text()='Регистрация рождения']")
@@ -69,12 +69,13 @@ public class BirthRegistrationPage extends BasePage {
     private WebElement statusLabel;
 
     @Step("Нажатие кнопки: Регистрация рождения")
-    public void chooseBirthRegistration() {
+    public BirthRegistrationPage chooseBirthRegistration() {
         birthRegistrationButton.click();
+        return this;
     }
 
     @Step("Заполнение формы: Данные гражданина")
-    public void fillCitizenForm(CitizenData citizen) {
+    public BirthRegistrationPage fillCitizenForm(CitizenData citizen) {
         setValue(surnameField, citizen.getSurname());
         setValue(nameField, citizen.getName());
         setValue(patronymicField, citizen.getPatronymic());
@@ -82,6 +83,7 @@ public class BirthRegistrationPage extends BasePage {
         setValue(passportNumberField, citizen.getPassportNumber());
         setValue(sexField, citizen.getSex());
         setValue(registrationAddressField, citizen.getRegistrationAddress());
+        return this;
     }
 
     @Step("Нажатие кнопки: Далее")
@@ -90,13 +92,15 @@ public class BirthRegistrationPage extends BasePage {
     }
 
     @Step("Заполнение формы: Данные услуги")
-    public void fillBirthRegistrationServiceForm(BirthRegistrationServiceData serviceData) {
+    public BirthRegistrationPage fillBirthRegistrationServiceForm(BirthRegistrationServiceData serviceData) {
         setValue(placeOfBirth, serviceData.getPlaceOfBirth());
         setValue(mother, serviceData.getMother());
         setValue(father, serviceData.getFather());
         setValue(grandma, serviceData.getGrandma());
         setValue(grandpa, serviceData.getGrandpa());
+        return this;
     }
+
     @Step("Нажатие кнопки: Завершить")
     public NavigationButton finishButton() {
         return new NavigationButton(finishButton);

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ui;
 
 import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +25,7 @@ public class BaseTest {
         }
 
         try {
-            WebDriverSingleton.getDriver().get(url);
+            WebDriverSingleton.getDriverThreadLocal().get(url);
         } catch (Exception e) {
             LOGGER.error("[SETUP] Ошибка при подготовке к запуску теста: {}", e.getMessage());
             throw e;

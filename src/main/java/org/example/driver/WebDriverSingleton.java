@@ -12,37 +12,37 @@ import java.util.logging.Level;
 
 public class WebDriverSingleton {
 
-    private static WebDriver driver;
+    private static final ThreadLocal<WebDriver> DRIVER_THREAD_LOCAL = new ThreadLocal<>();
     private static final Dotenv DOTENV = Dotenv.load();
     private static final Logger LOGGER = LogManager.getLogger(WebDriverSingleton.class);
 
     private WebDriverSingleton() {}
 
-    public static WebDriver getDriver() {
-        if (driver == null) {
+    public static WebDriver getDriverThreadLocal() {
+        if (DRIVER_THREAD_LOCAL.get() == null) {
             java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
             LOGGER.info("Инициализация нового WebDriver Chrome...");
             try {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--start-maximized");
 
-                driver = new ChromeDriver(options);
-                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+                DRIVER_THREAD_LOCAL.set(new ChromeDriver(options));
+                DRIVER_THREAD_LOCAL.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
                 LOGGER.info("WebDriver успешно запущен и будет открыт на всё окно.");
             } catch (Exception e) {
                 LOGGER.error("Ошибка запуска WebDriver: {}", e.getMessage());
             }
         }
-        return driver;
+        return DRIVER_THREAD_LOCAL.get();
     }
 
     public static void quit() {
-        if (driver != null) {
+        if (DRIVER_THREAD_LOCAL.get() != null) {
             LOGGER.info("Закрытие сессии WebDriver...");
-            driver.quit();
+            DRIVER_THREAD_LOCAL.get().quit();
             LOGGER.info("WebDriver успешно закрыт.");
-            driver = null;
+            DRIVER_THREAD_LOCAL.remove();
         }
     }
 

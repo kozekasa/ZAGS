@@ -1,9 +1,7 @@
-package org.example.marriageRegistration;
+package org.example.ui.marriageRegistration;
 
 import io.qameta.allure.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.BaseTest;
+import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.CitizenData;
 import org.example.models.MarriageRegistrationServiceData;
@@ -17,22 +15,22 @@ public class MarriageRegistrationTest extends BaseTest {
     @Epic("ЗАГС")
     @Feature("Регистрация брака")
     @Severity(SeverityLevel.BLOCKER)
-    @DisplayName("Регистрация брака: успешное заполнение всех форм!")
+    @DisplayName("Регистрация брака")
     public void testSuccessfulMarriageRegistration() {
         UserData user = TestDataFactory.createDefaultUser();
         CitizenData citizen = TestDataFactory.createDefaultCitizen();
         MarriageRegistrationServiceData serviceData = TestDataFactory.createMarriageServiceData();
 
-        pages.userRegistrationPage().StartRegistration();
-        pages.userRegistrationPage().FillUserForm(user);
-        pages.userRegistrationPage().nextStep().click();
+        pages.userRegistrationPage().StartRegistration()
+                                    .FillUserForm(user)
+                                    .nextStep().click();
 
-        pages.marriageRegistrationPage().chooseMarriageRegistration();
-        pages.marriageRegistrationPage().fillCitizenForm(citizen);
-        pages.marriageRegistrationPage().nextStep().click();
+        pages.marriageRegistrationPage().chooseMarriageRegistration()
+                                        .fillCitizenForm(citizen)
+                                        .nextStep().click();
 
-        pages.marriageRegistrationPage().fillMarriageRegistrationServiceForm(serviceData);
-        pages.marriageRegistrationPage().finishButton().click();
+        pages.marriageRegistrationPage().fillMarriageRegistrationServiceForm(serviceData)
+                                        .finishButton().click();
 
         String actualStatus = pages.marriageRegistrationPage().applicationStatus().getText();
 

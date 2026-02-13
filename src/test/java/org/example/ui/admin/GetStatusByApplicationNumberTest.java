@@ -1,7 +1,8 @@
-package org.example.admin;
+package org.example.ui.admin;
 
 import io.qameta.allure.*;
-import org.example.BaseTest;
+import org.example.UsefulAPI;
+import org.example.ui.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.AdminData;
 import org.junit.jupiter.api.*;
@@ -11,19 +12,18 @@ public class GetStatusByApplicationNumberTest extends BaseTest {
     @Test
     @Tag("admin")
     @Epic("ЗАГС")
-    @Feature("Регистрация брака")
+    @Feature("Администрирование")
     @Story("Проверка статуса заявки по номеру")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Регистрация администратора: проверка статуса заявки по её номеру")
     public void testAdminCheck() {
-        AdminData admin = TestDataFactory.createDefaultAdmin();
+        AdminData adminForUI = TestDataFactory.createAdminForUI();
 
-        //Пока не дошли до API, то номер захардкодил, потом будет просто его сюда передать.
-        String applicationNumber = "58231";
+        String applicationNumber = UsefulAPI.createApplicationAndGetId();
 
-        pages.adminPage().StartRegistration();
-        pages.adminPage().FillAdminForm(admin);
-        pages.adminPage().nextStep().click();
+        pages.adminPage().StartRegistration()
+                         .FillAdminForm(adminForUI)
+                         .nextStep().click();
 
         String actualStatus = pages.adminPage().getStatusByApplicationNumber(applicationNumber);
 

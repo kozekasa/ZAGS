@@ -13,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 public class DeathRegistrationPage extends BasePage {
 
     public DeathRegistrationPage() {
-        PageFactory.initElements(WebDriverSingleton.getDriver(), this);
+        PageFactory.initElements(WebDriverSingleton.getDriverThreadLocal(), this);
     }
 
     @FindBy(xpath = "//button[text()='Регистрация смерти']")
@@ -56,12 +56,13 @@ public class DeathRegistrationPage extends BasePage {
     private WebElement statusLabel;
 
     @Step("Нажатие кнопки: Регистрация смерти")
-    public void chooseDeathRegistration() {
+    public DeathRegistrationPage chooseDeathRegistration() {
         deathRegistrationButton.click();
+        return this;
     }
 
     @Step("Заполнение формы: Данные гражданина")
-    public void fillCitizenForm(CitizenData citizen) {
+    public DeathRegistrationPage fillCitizenForm(CitizenData citizen) {
         setValue(surnameField, citizen.getSurname());
         setValue(nameField, citizen.getName());
         setValue(patronymicField, citizen.getPatronymic());
@@ -69,6 +70,7 @@ public class DeathRegistrationPage extends BasePage {
         setValue(passportNumberField, citizen.getPassportNumber());
         setValue(sexField, citizen.getSex());
         setValue(registrationAddressField, citizen.getRegistrationAddress());
+        return this;
     }
 
     @Step("Нажатие кнопки: Далее")
@@ -77,9 +79,10 @@ public class DeathRegistrationPage extends BasePage {
     }
 
     @Step("Заполнение формы: Данные услуги")
-    public void fillDeathRegistrationServiceForm(DeathRegistrationServiceData serviceData) {
+    public DeathRegistrationPage fillDeathRegistrationServiceForm(DeathRegistrationServiceData serviceData) {
         setValue(dateOfDeath, serviceData.getDateOfDeath());
         setValue(placeOfDeath, serviceData.getPlaceOfDeath());
+        return this;
     }
 
     @Step("Нажатие кнопки: Завершить")

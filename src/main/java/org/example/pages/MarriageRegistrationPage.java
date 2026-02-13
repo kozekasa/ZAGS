@@ -13,7 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 public class MarriageRegistrationPage extends BasePage {
 
     public MarriageRegistrationPage() {
-        PageFactory.initElements(WebDriverSingleton.getDriver(), this);
+        PageFactory.initElements(WebDriverSingleton.getDriverThreadLocal(), this);
     }
 
     @FindBy(xpath = "//button[text()='Регистрация брака']")
@@ -74,12 +74,13 @@ public class MarriageRegistrationPage extends BasePage {
     private WebElement orderNumber;
 
     @Step("Нажатие кнопки: Регистрация брака")
-    public void chooseMarriageRegistration() {
+    public MarriageRegistrationPage chooseMarriageRegistration() {
         marriageRegistrationButton.click();
+        return this;
     }
 
     @Step("Заполнение формы: Данные гражданина")
-    public void fillCitizenForm(CitizenData citizen) {
+    public MarriageRegistrationPage fillCitizenForm(CitizenData citizen) {
         setValue(surnameField, citizen.getSurname());
         setValue(nameField, citizen.getName());
         setValue(patronymicField, citizen.getPatronymic());
@@ -87,6 +88,7 @@ public class MarriageRegistrationPage extends BasePage {
         setValue(passportNumberField, citizen.getPassportNumber());
         setValue(sexField, citizen.getSex());
         setValue(registrationAddressField, citizen.getRegistrationAddress());
+        return this;
     }
 
     @Step("Нажатие кнопки: Далее")
@@ -95,7 +97,7 @@ public class MarriageRegistrationPage extends BasePage {
     }
 
     @Step("Заполнение формы: Данные услуги")
-    public void fillMarriageRegistrationServiceForm(MarriageRegistrationServiceData serviceData) {
+    public MarriageRegistrationPage fillMarriageRegistrationServiceForm(MarriageRegistrationServiceData serviceData) {
         setValue(dateOfRegistration, serviceData.getDateOfRegistration());
         setValue(newSurname, serviceData.getNewSurname());
         setValue(spouseSurname, serviceData.getSpouseSurname());
@@ -103,6 +105,7 @@ public class MarriageRegistrationPage extends BasePage {
         setValue(spousePatronymic, serviceData.getSpousePatronymic());
         setValue(spouseDateOfBirth, serviceData.getSpouseDateOfBirth());
         setValue(spousePassportNumber, serviceData.getSpousePassportNumber());
+        return this;
     }
 
     @Step("Нажатие кнопки: Завершить")
