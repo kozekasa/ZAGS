@@ -1,14 +1,12 @@
 package org.example.dbSteps;
 
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
-
+import org.example.models.ApplicationData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class DbSteps {
     private final Connection connection;
@@ -19,7 +17,7 @@ public class DbSteps {
 
     @Step("БД: Проверка наличия сотрудника с ID {staffId}")
     public boolean isStaffExists(int staffId) throws SQLException {
-        String query = "SELECT 1 FROM reg_office.staff WHERE staffid = ?";
+        String query = "SELECT * FROM reg_office.staff WHERE staffid = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, staffId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -39,7 +37,7 @@ public class DbSteps {
 
     @Step("БД: Проверка наличия записи в таблице {tableName}")
     public boolean isRecordExists(String tableName, String columnName, int id) throws SQLException {
-        String query = String.format("SELECT 1 FROM reg_office.%s WHERE %s = ?", tableName, columnName);
+        String query = String.format("SELECT * FROM reg_office.%s WHERE %s = ?", tableName, columnName);
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -48,29 +46,78 @@ public class DbSteps {
         }
     }
 
-    @Step("БД: Комплексная проверка заявки {appId}")
-    public void verifyApplicationIntegrity(int appId, String certificateTable) throws SQLException {
-        String appQuery = "SELECT citizenid, applicantid FROM reg_office.applications WHERE applicationid = ?";
+    @Step("БД: Получение связанных ID для заявки {appId}")
+    public ApplicationData getApplicationData(int appId) throws SQLException {
+        String query = "SELECT citizenid, applicantid, kindofapplication FROM reg_office.applications WHERE applicationid = ?";
 
-        int citizenId;
-        int applicantId;
-
-        try (PreparedStatement stmt = connection.prepareStatement(appQuery)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, appId);
-            ResultSet rs = stmt.executeQuery();
-            assertThat(rs.next()).as("Заявка " + appId + " не найдена").isTrue();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    ApplicationData data = new ApplicationData();
+                    data.citizenId = rs.getInt("citizenid");
+                    data.applicantId = rs.getInt("applicantid");
+                    data.kind = rs.getString("kindofapplication");
+                    return data;
+                }
+                return null;
+            }
+        }
+    }
 
-            citizenId = rs.getInt("citizenid");
-            applicantId = rs.getInt("applicantid");
+
+    @Step("БД: Полная очистка данных для заявки {appId}")
+    public void cleanUpApplicationData(int appId) throws SQLException {
+        if (appId == 0) return;
+
+        int citizenId = 0;
+        int applicantId = 0;
+
+        String findIdsQuery = "SELECT citizenid, applicantid FROM reg_office.applications WHERE applicationid = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(findIdsQuery)) {
+            stmt.setInt(1, appId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    citizenId = rs.getInt("citizenid");
+                    applicantId = rs.getInt("applicantid");
+                }
+            }
         }
 
-        Assertions.assertAll("Целостность данных в БД для заявки " + appId,
-                () -> assertThat(isRecordExists("applicants", "applicantid", applicantId))
-                        .as("Запись в applicants не найдена").isTrue(),
-                () -> assertThat(isRecordExists("citizens", "citizenid", citizenId))
-                        .as("Запись в citizens не найдена").isTrue(),
-                () -> assertThat(isRecordExists(certificateTable, "citizenid", citizenId))
-                        .as("Запись в " + certificateTable + " не найдена").isTrue()
-        );
+        if (citizenId != 0) {
+            deleteByColumn("merrigecertificates", "citizenid", citizenId);
+            deleteByColumn("birthcertificates", "citizenid", citizenId);
+            deleteByColumn("deathcertificates", "citizenid", citizenId);
+        }
+
+        deleteByColumn("applications", "applicationid", appId);
+
+        if (citizenId != 0) {
+            deleteByColumn("citizens", "citizenid", citizenId);
+        }
+        if (applicantId != 0) {
+            deleteByColumn("applicants", "applicantid", applicantId);
+        }
+    }
+
+    private void deleteByColumn(String table, String column, int id) throws SQLException {
+        String sql = String.format("DELETE FROM reg_office.%s WHERE %s = ?", table, column);
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    @Step("БД: Получение статуса заявки {appId}")
+    public String getApplicationStatus(int appId) throws SQLException {
+        String query = "SELECT statusofapplication FROM reg_office.applications WHERE applicationid = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, appId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("statusofapplication");
+                } return null;
+            }
+        }
     }
 }

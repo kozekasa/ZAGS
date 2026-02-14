@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Epic("DB")
 @Feature("Регистрация администратора")
-public class AdminRequestDatabaseTest extends BaseDbTest {
+public class AdminDatabaseTest extends BaseDbTest {
 
     private int staffId;
 
