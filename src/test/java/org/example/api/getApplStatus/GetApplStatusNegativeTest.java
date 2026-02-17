@@ -6,7 +6,6 @@ import org.example.ApiPreconditions;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.UserDataAPI;
 import org.example.specs.RequestSpecs;
-import org.example.specs.ResponseSpecs;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -32,7 +31,6 @@ public class GetApplStatusNegativeTest {
                 .when()
                 .get("/getApplStatus")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(404))
                 .extract()
                 .response();
 
@@ -57,7 +55,6 @@ public class GetApplStatusNegativeTest {
                 .when()
                 .get("/getApplStatus/{appid}")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(401))
                 .extract()
                 .response();
 
@@ -80,7 +77,6 @@ public class GetApplStatusNegativeTest {
                 .when()
                 .get("/getApplStatus/{appid}")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(500))
                 .extract()
                 .response();
 

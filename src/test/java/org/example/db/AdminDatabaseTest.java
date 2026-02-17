@@ -19,7 +19,7 @@ public class AdminDatabaseTest extends BaseDbTest {
     @Tag("positive")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Проверка создания администратора в БД")
-    public void testStaffCreationInDb() throws SQLException {
+    public void testStaffCreationInDb() {
 
         staffId = ApiPreconditions.createStaffAndGetId();
 

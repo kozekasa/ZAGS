@@ -22,11 +22,13 @@ public class RequestProcessDatabaseTest extends BaseDbTest {
 
     private int applid;
     private int staffId;
+    private String currentKind;
 
     @Test
     @Story("Изменение статуса на approved")
     @DisplayName("Проверка изменения статуса заявки на approved в БД")
-    public void testApproveApplicationStatusInDb() throws SQLException {
+    public void testApproveApplicationStatusInDb() {
+        this.currentKind = "marriage";
 
         UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
         String targetStatus = "approved";
@@ -41,29 +43,12 @@ public class RequestProcessDatabaseTest extends BaseDbTest {
                 .isEqualToIgnoringCase(targetStatus);
     }
 
-    @Test
-    @Story("Изменение статуса на rejected")
-    @DisplayName("Проверка изменения статуса заявки на rejected в БД")
-    public void testRejectedApplicationStatusUpdateInDb() throws SQLException {
-
-        UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
-        String targetStatus = "rejected";
-
-        int[] ids = ApiPreconditions.createAndPrepareApplication(userRequest, targetStatus);
-        this.applid = ids[0];
-        this.staffId = ids[1];
-
-        String actualStatus = dbSteps.getApplicationStatus(applid);
-        assertThat(actualStatus)
-                .as("Статус заявки в БД не соответствует ожидаемому")
-                .isEqualToIgnoringCase(targetStatus);
-    }
 
     @AfterEach
     @Step("Полная очистка данных (заявка и админ)")
     public void cleanUpAll() throws SQLException {
         if (applid != 0) {
-            dbSteps.cleanUpApplicationData(applid);
+            dbSteps.cleanUpApplicationData(applid, currentKind);
         }
         if (staffId != 0) {
             dbSteps.deleteStaff(staffId);

@@ -18,11 +18,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class UserDatabaseTest extends BaseDbTest {
 
     private int applid;
+    private String currentKind;
 
     @Test
     @Story("Регистрация брака")
     @DisplayName("Проверка создания заявки Регистрация брака в БД")
-    public void testMarriageRegistrationCreationInDb() throws SQLException {
+    public void testMarriageRegistrationCreationInDb() {
+        this.currentKind = "marriage";
+
         UserDataAPI request = TestDataFactory.createMarriageRegistrationAPIRequest().build();
         applid = ApiPreconditions.createApplicationAndGetIntId(request);
 
@@ -45,7 +48,9 @@ public class UserDatabaseTest extends BaseDbTest {
     @Test
     @Story("Регистрация рождения")
     @DisplayName("Проверка создания заявки Регистрация рождения в БД")
-    public void testBirthRegistrationCreationInDb() throws SQLException {
+    public void testBirthRegistrationCreationInDb() {
+        this.currentKind = "birth";
+
         UserDataAPI request = TestDataFactory.createBirthRegistrationAPIRequest().build(); // Исправлено на Birth
         applid = ApiPreconditions.createApplicationAndGetIntId(request);
 
@@ -68,7 +73,8 @@ public class UserDatabaseTest extends BaseDbTest {
     @Test
     @Story("Регистрация смерти")
     @DisplayName("Проверка создания заявки Регистрация смерти в БД")
-    public void testDeathRegistrationCreationInDb() throws SQLException {
+    public void testDeathRegistrationCreationInDb() {
+        this.currentKind = "death";
 
         UserDataAPI request = TestDataFactory.createDeathRegistrationAPIRequest().build();
         applid = ApiPreconditions.createApplicationAndGetIntId(request);
@@ -93,6 +99,6 @@ public class UserDatabaseTest extends BaseDbTest {
     @AfterEach
     @Step("Очистка тестовых данных")
     public void cleanUp() throws SQLException {
-        dbSteps.cleanUpApplicationData(applid);
+        dbSteps.cleanUpApplicationData(applid, currentKind);
     }
 }

@@ -16,13 +16,15 @@ public class DbSteps {
     }
 
     @Step("БД: Проверка наличия сотрудника с ID {staffId}")
-    public boolean isStaffExists(int staffId) throws SQLException {
-        String query = "SELECT * FROM reg_office.staff WHERE staffid = ?";
+    public boolean isStaffExists(int staffId) {
+        String query = "SELECT 1 FROM reg_office.staff WHERE staffid = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, staffId);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при проверке наличия сотрудника ID: " + staffId, e);
         }
     }
 
@@ -36,18 +38,22 @@ public class DbSteps {
     }
 
     @Step("БД: Проверка наличия записи в таблице {tableName}")
-    public boolean isRecordExists(String tableName, String columnName, int id) throws SQLException {
-        String query = String.format("SELECT * FROM reg_office.%s WHERE %s = ?", tableName, columnName);
+    public boolean isRecordExists(String tableName, String columnName, int id) {
+        String query = String.format("SELECT 1 FROM reg_office.%s WHERE %s = ?", tableName, columnName);
+
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(String.format("Ошибка при проверке наличия записи в таблице [%s] по колонке [%s] с ID [%d]",
+                    tableName, columnName, id), e);
         }
     }
 
     @Step("БД: Получение связанных ID для заявки {appId}")
-    public ApplicationData getApplicationData(int appId) throws SQLException {
+    public ApplicationData getApplicationData(int appId) {
         String query = "SELECT citizenid, applicantid, kindofapplication FROM reg_office.applications WHERE applicationid = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -62,12 +68,14 @@ public class DbSteps {
                 }
                 return null;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при проверке наличия заявки ID: " + appId, e);
         }
     }
 
 
     @Step("БД: Полная очистка данных для заявки {appId}")
-    public void cleanUpApplicationData(int appId) throws SQLException {
+    public void cleanUpApplicationData(int appId, String currentKind) throws SQLException {
         if (appId == 0) return;
 
         int citizenId = 0;
@@ -84,10 +92,17 @@ public class DbSteps {
             }
         }
 
-        if (citizenId != 0) {
-            deleteByColumn("merrigecertificates", "citizenid", citizenId);
-            deleteByColumn("birthcertificates", "citizenid", citizenId);
-            deleteByColumn("deathcertificates", "citizenid", citizenId);
+        if (citizenId != 0 && currentKind != null) {
+            String certificateTable = switch (currentKind.toLowerCase()) {
+                case "marriage" -> "merrigecertificates";
+                case "birth" -> "birthcertificates";
+                case "death" -> "deathcertificates";
+                default -> null;
+            };
+
+            if (certificateTable != null) {
+                deleteByColumn(certificateTable, "citizenid", citizenId);
+            }
         }
 
         deleteByColumn("applications", "applicationid", appId);
@@ -109,15 +124,21 @@ public class DbSteps {
     }
 
     @Step("БД: Получение статуса заявки {appId}")
-    public String getApplicationStatus(int appId) throws SQLException {
+    public String getApplicationStatus(int appId) {
         String query = "SELECT statusofapplication FROM reg_office.applications WHERE applicationid = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, appId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getString("statusofapplication");
-                } return null;
+                } else {
+                    throw new RuntimeException(
+                            String.format("Заявка с ID [%d] не найдена в таблице reg_office.applications", appId)
+                    );
+                }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Техническая ошибка при получении статуса заявки ID: " + appId, e);
         }
     }
 }

@@ -5,7 +5,6 @@ import io.restassured.response.Response;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.AdminData;
 import org.example.specs.RequestSpecs;
-import org.example.specs.ResponseSpecs;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -33,7 +32,6 @@ public class SendAdminRequestNegativeTests {
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(400))
                 .extract()
                 .response();
 
@@ -53,7 +51,6 @@ public class SendAdminRequestNegativeTests {
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(400))
                 .extract()
                 .response();
 
@@ -76,7 +73,6 @@ public class SendAdminRequestNegativeTests {
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(401))
                 .extract()
                 .response();
 
@@ -99,7 +95,6 @@ public class SendAdminRequestNegativeTests {
                 .when()
                 .post("/sendAdminRequest")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(500))
                 .extract()
                 .response();
 

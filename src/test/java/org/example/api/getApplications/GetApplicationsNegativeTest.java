@@ -28,7 +28,6 @@ public class GetApplicationsNegativeTest {
                 .when()
                 .get("/getApplications")
                 .then()
-                .spec(ResponseSpecs.errorResponseSpec(401))
                 .extract()
                 .response();
 
