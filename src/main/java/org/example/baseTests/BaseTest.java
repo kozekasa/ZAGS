@@ -1,4 +1,4 @@
-package org.example.ui;
+package org.example.baseTests;
 
 import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;

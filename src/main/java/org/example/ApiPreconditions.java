@@ -4,13 +4,14 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.AdminData;
+import org.example.models.RequestProcessData;
 import org.example.models.UserDataAPI;
 import org.example.specs.RequestSpecs;
 import org.example.specs.ResponseSpecs;
 
 import static io.restassured.RestAssured.given;
 
-public class UsefulAPI {
+public class ApiPreconditions {
 
     @Step("API: Создание заявки и получение её ID")
     public static String createApplicationAndGetId() {
@@ -30,10 +31,9 @@ public class UsefulAPI {
         });
     }
 
-    public static int createApplicationAndGetIntId() {
-        UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
-
-        return Allure.step("API: Создание заявки и получение её ID", () -> {
+    @Step("API: Создание заявки и получение её ID")
+    public static int createApplicationAndGetIntId(UserDataAPI userRequest) {
+        return Allure.step("Отправка POST запроса с кастомными данными", () -> {
             return given()
                     .spec(RequestSpecs.requestSpec())
                     .body(userRequest)
@@ -46,6 +46,7 @@ public class UsefulAPI {
         });
     }
 
+    @Step("API: Регистрация администратора и получение его ID")
     public static int createStaffAndGetId() {
         AdminData admin = TestDataFactory.createAdminForAPI();
 
@@ -59,5 +60,27 @@ public class UsefulAPI {
                     .spec(ResponseSpecs.successResponseSpec(200))
                     .extract().path("data.staffid");
         });
+    }
+
+    @Step("API: Полный цикл создания заявки и перевода в статус '{targetStatus}'")
+    public static int[] createAndPrepareApplication(UserDataAPI userRequest, String targetStatus) {
+
+        int staffId = createStaffAndGetId();
+
+        int appId = createApplicationAndGetIntId(userRequest);
+
+        RequestProcessData requestData = TestDataFactory.createRequestStatus(appId, staffId, targetStatus);
+
+        Allure.step("API: Смена статуса заявки " + appId + " на " + targetStatus, () -> {
+            given()
+                    .spec(RequestSpecs.requestSpec())
+                    .body(requestData)
+                    .when()
+                    .post("/requestProcess")
+                    .then()
+                    .spec(ResponseSpecs.successResponseSpec(200));
+        });
+
+        return new int[]{appId, staffId};
     }
 }

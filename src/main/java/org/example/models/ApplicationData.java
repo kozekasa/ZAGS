@@ -11,4 +11,7 @@ public class ApplicationData {
     private int staffid;
     private int total;
     private int size;
+    public int citizenId;
+    public int applicantId;
+    public String kind;
 }
