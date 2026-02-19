@@ -34,7 +34,7 @@ public class WebDriverSingleton {
 
                 if (System.getenv("JENKINS_HOME") != null || System.getProperty("os.name").toLowerCase().contains("linux")) {
                     LOGGER.info("Обнаружена серверная среда. Запуск в Headless режиме...");
-                    options.addArguments("--headless=new");
+                    options.addArguments("--headless");
                     options.addArguments("--no-sandbox");
                     options.addArguments("--disable-dev-shm-usage");
                     options.addArguments("--window-size=1920,1080");
