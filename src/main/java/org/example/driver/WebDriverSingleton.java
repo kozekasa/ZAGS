@@ -23,8 +23,16 @@ public class WebDriverSingleton {
             java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
             LOGGER.info("Инициализация нового WebDriver Chrome...");
             try {
+                io.github.bonigarcia.wdm.WebDriverManager.chromedriver().setup();
+
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--start-maximized");
+
+                if (System.getenv("JENKINS_HOME") != null) {
+                    options.addArguments("--headless=new");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                }
 
                 DRIVER_THREAD_LOCAL.set(new ChromeDriver(options));
                 DRIVER_THREAD_LOCAL.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
