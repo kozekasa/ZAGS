@@ -29,16 +29,17 @@ public class WebDriverSingleton {
                 io.github.bonigarcia.wdm.WebDriverManager.chromedriver().setup();
 
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--start-maximized");
-                options.addArguments("--remote-allow-origins=*");
 
                 if (System.getenv("JENKINS_HOME") != null || System.getProperty("os.name").toLowerCase().contains("linux")) {
                     LOGGER.info("Обнаружена серверная среда. Запуск в Headless режиме...");
                     options.addArguments("--headless");
                     options.addArguments("--no-sandbox");
                     options.addArguments("--disable-dev-shm-usage");
-                    options.addArguments("--window-size=1920,1080");
+                } else {
+                    options.addArguments("--start-maximized");
+                    options.addArguments("--remote-allow-origins=*");
                 }
+
 
                 LOGGER.info("Инициализация ChromeDriver...");
                 WebDriver driver = new ChromeDriver(options);
