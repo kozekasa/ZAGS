@@ -132,7 +132,7 @@
                             junit.jupiter.execution.parallel.mode.default = concurrent
                             junit.jupiter.execution.parallel.mode.classes.default = concurrent
                             junit.jupiter.execution.parallel.config.strategy = fixed
-                            junit.jupiter.execution.parallel.config.fixed.parallelism = 16
+                            junit.jupiter.execution.parallel.config.fixed.parallelism = 4
                         </configurationParameters>
                     </properties>
                     <testFailureIgnore>false</testFailureIgnore>
