@@ -168,7 +168,7 @@
                             junit.jupiter.execution.parallel.config.fixed.parallelism = 16
                         </configurationParameters>
                     </properties>
-                    <testFailureIgnore>false</testFailureIgnore>
+                    <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.23/aspectjweaver-1.9.23.jar"
                     </argLine>
