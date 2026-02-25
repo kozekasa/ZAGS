@@ -11,7 +11,9 @@ public class CustomInput {
     }
 
     public void fillAndEnter(String text) {
+        element.click();
         element.clear();
-        element.sendKeys(text, Keys.ENTER);
+        element.sendKeys(text);
+        element.sendKeys(Keys.TAB);
     }
 }

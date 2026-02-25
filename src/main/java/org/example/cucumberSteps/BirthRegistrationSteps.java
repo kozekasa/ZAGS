@@ -1,6 +1,9 @@
 package org.example.cucumberSteps;
 
-import io.cucumber.java.en.*;
+import io.cucumber.java.ru.Дано;
+import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.Когда;
+import io.cucumber.java.ru.Тогда;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.*;
@@ -16,7 +19,7 @@ public class BirthRegistrationSteps {
     private CitizenData citizen;
     private BirthRegistrationServiceData serviceData;
 
-    @Given("Я нахожусь на странице регистрации пользователя")
+    @Дано("открыта страница регистрации пользователя")
     public void openRegistration() {
         user = TestDataFactory.createDefaultUser();
         citizen = TestDataFactory.createDefaultCitizen();
@@ -26,7 +29,7 @@ public class BirthRegistrationSteps {
         pages.userRegistrationPage().StartRegistration();
     }
 
-    @Given("Я заполняю данные пользователя и перехожу к выбору услуги")
+    @И("заполнены данные пользователя для перехода к выбору услуги")
     public void fillUserStep() {
         log.info("Заполнение формы пользователя для: {} {}", user.getSurname(), user.getPatronymic());
         pages.userRegistrationPage()
@@ -34,7 +37,7 @@ public class BirthRegistrationSteps {
                 .nextStep().click();
     }
 
-    @When("Я выбираю регистрацию рождения и заполняю данные гражданина")
+    @Когда("выбрана регистрация рождения и заполнены данные гражданина")
     public void fillCitizenStep() {
         log.info("Выбор услуги 'Регистрация рождения' и ввод данных гражданина");
         pages.birthRegistrationPage()
@@ -43,23 +46,23 @@ public class BirthRegistrationSteps {
                 .nextStep().click();
     }
 
-    @When("Я заполняю данные свидетельства о рождении и завершаю регистрацию")
+    @И("внесены данные свидетельства о рождении и завершена регистрация")
     public void fillServiceStep() {
-        log.info("Заполнение формы услуги (ServiceData) и нажатие кнопки Финиш");
+        log.info("Заполнение формы услуги и нажатие кнопки Финиш");
         pages.birthRegistrationPage()
                 .fillBirthRegistrationServiceForm(serviceData)
                 .finishButton().click();
     }
 
-    @Then("Я должен увидеть статус заявки {string}")
+    @Тогда("отображается статус заявки {string}")
     public void verifyStatus(String expectedStatus) {
-        log.info("Проверка финального статуса заявки на UI. Ожидаем: {}", expectedStatus);
+        log.info("Проверка финального статуса заявки. Ожидаем: {}", expectedStatus);
         String actualStatus = pages.birthRegistrationPage().applicationStatus().getText();
 
         log.debug("Получен текст из элемента статуса: '{}'", actualStatus);
 
         Assertions.assertEquals(expectedStatus, actualStatus,
-                "Статус заявки не корректен или заявка не была создана!");
+                "Статус заявки некорректен или заявка не была создана!");
         log.info("Тест успешно завершен. Статус подтвержден.");
     }
 }
