@@ -20,26 +20,37 @@ public class WebDriverSingleton {
 
     public static WebDriver getDriverThreadLocal() {
         if (DRIVER_THREAD_LOCAL.get() == null) {
+            // Отключаем лишние логи Selenium
             java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-            LOGGER.info("Инициализация нового WebDriver Chrome...");
+
             try {
+                LOGGER.info("Настройка WebDriverManager...");
+
                 io.github.bonigarcia.wdm.WebDriverManager.chromedriver().setup();
 
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--start-maximized");
 
-                if (System.getenv("JENKINS_HOME") != null) {
-                    options.addArguments("--headless=new");
+                if (System.getenv("JENKINS_HOME") != null || System.getProperty("os.name").toLowerCase().contains("linux")) {
+                    LOGGER.info("Обнаружена серверная среда. Запуск в Headless режиме...");
+                    options.addArguments("--headless");
                     options.addArguments("--no-sandbox");
                     options.addArguments("--disable-dev-shm-usage");
+                } else {
+                    options.addArguments("--start-maximized");
+                    options.addArguments("--remote-allow-origins=*");
                 }
 
-                DRIVER_THREAD_LOCAL.set(new ChromeDriver(options));
-                DRIVER_THREAD_LOCAL.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
-                LOGGER.info("WebDriver успешно запущен и будет открыт на всё окно.");
+                LOGGER.info("Инициализация ChromeDriver...");
+                WebDriver driver = new ChromeDriver(options);
+                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+                DRIVER_THREAD_LOCAL.set(driver);
+                LOGGER.info("WebDriver успешно запущен.");
+
             } catch (Exception e) {
-                LOGGER.error("Ошибка запуска WebDriver: {}", e.getMessage());
+                LOGGER.error("КРИТИЧЕСКАЯ ОШИБКА: Не удалось запустить WebDriver! Причина: {}", e.getMessage());
+                throw new RuntimeException("Ошибка инициализации драйвера: " + e.getMessage(), e);
             }
         }
         return DRIVER_THREAD_LOCAL.get();
