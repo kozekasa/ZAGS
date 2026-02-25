@@ -37,6 +37,11 @@ public class WebDriverSingleton {
                 options.addArguments("--no-sandbox");
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("--disable-gpu");
+                options.addArguments("--lang=ru-RU");
+
+                Map<String, Object> prefs = new HashMap<>();
+                prefs.put("intl.accept_languages", "ru-RU,ru");
+                options.setExperimentalOption("prefs", prefs);
 
                 if (isJenkins && (selenoidUrl == null || selenoidUrl.isEmpty())) {
                     LOGGER.warn("Jenkins обнаружен, но SELENOID_URL пуст! Использую локальный Headless Chrome.");

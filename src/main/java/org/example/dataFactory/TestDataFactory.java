@@ -17,7 +17,7 @@ public class TestDataFactory {
 
     @Step("Инициализация данных: Администратор (UI)")
     public static AdminData createAdminForUI() {
-        return createBaseAdmin("23072004");
+        return createBaseAdmin("07232004");
     }
 
     @Step("Инициализация данных: Администратор (API)")
@@ -42,7 +42,7 @@ public class TestDataFactory {
                 "Иванов",
                 "Иван",
                 "Иванович",
-                "23072004",
+                "07232004",
                 "АВ1234567",
                 "male",
                 "г. Брест");
