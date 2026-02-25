@@ -3,6 +3,7 @@ package org.example.driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -27,6 +28,7 @@ public class WebDriverSingleton {
         if (DRIVER_THREAD_LOCAL.get() == null) {
             String selenoidUrl = System.getenv("SELENOID_URL");
             WebDriver driver;
+            boolean isJenkins = System.getenv("JENKINS_URL") != null;
 
             try {
                 ChromeOptions options = new ChromeOptions();
@@ -35,19 +37,20 @@ public class WebDriverSingleton {
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("--disable-gpu");
 
-                if (selenoidUrl != null) {
-                    LOGGER.info("Обнаружена переменная SELENOID_URL. Запуск через Selenoid: {}", selenoidUrl);
+                if (isJenkins && selenoidUrl == null) {
+                    LOGGER.info("Запуск в Jenkins без Selenoid. Активирован режим --headless=new");
+                    options.addArguments("--headless=new");
+                }
 
+                if (selenoidUrl != null && !selenoidUrl.isEmpty()) {
+                    LOGGER.info("Запуск через Selenoid: {}", selenoidUrl);
                     Map<String, Object> selenoidOptions = new HashMap<>();
                     selenoidOptions.put("enableVNC", true);
-                    selenoidOptions.put("enableVideo", false);
                     options.setCapability("selenoid:options", selenoidOptions);
-
                     driver = new RemoteWebDriver(new URL(selenoidUrl), options);
                 } else {
-                    LOGGER.info("Переменная SELENOID_URL не найдена. Локальный запуск Chrome...");
-
-                    driver = new org.openqa.selenium.chrome.ChromeDriver(options);
+                    LOGGER.info("Локальный запуск Chrome (Режим: {})", isJenkins ? "Headless" : "GUI");
+                    driver = new ChromeDriver(options);
                 }
 
                 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
