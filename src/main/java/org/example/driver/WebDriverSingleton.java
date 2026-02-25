@@ -25,7 +25,7 @@ public class WebDriverSingleton {
 
     public static WebDriver getDriverThreadLocal() {
         if (DRIVER_THREAD_LOCAL.get() == null) {
-            String selenoidUrl = System.getenv("SELENOID_URL");
+            String selenoidUrl = getEnv("SELENOID_URL");
 
             boolean isJenkins = System.getenv("JENKINS_URL") != null;
 
