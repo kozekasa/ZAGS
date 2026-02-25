@@ -1,9 +1,7 @@
 package org.example.cucumberSteps;
 
-import io.cucumber.java.ru.Дано;
-import io.cucumber.java.ru.И;
-import io.cucumber.java.ru.Когда;
-import io.cucumber.java.ru.Тогда;
+
+import io.cucumber.java.ru.*;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.*;
