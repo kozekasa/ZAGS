@@ -160,6 +160,7 @@
                     </properties>
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
+                        -Dfile.encoding=UTF-8
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.23/aspectjweaver-1.9.23.jar"
                     </argLine>
                     <systemPropertyVariables>
