@@ -43,6 +43,7 @@ public class UserRegistrationPage extends BasePage {
         loginAsUserButton.click();
         return this;
     }
+
     @Step("Заполнение формы: Данные заявителя")
     public UserRegistrationPage FillUserForm(UserData user) {
         setValue(surnameField, user.getSurname());
