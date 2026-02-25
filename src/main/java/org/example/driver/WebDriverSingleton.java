@@ -8,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
@@ -27,8 +26,10 @@ public class WebDriverSingleton {
     public static WebDriver getDriverThreadLocal() {
         if (DRIVER_THREAD_LOCAL.get() == null) {
             String selenoidUrl = System.getenv("SELENOID_URL");
-            WebDriver driver;
+
             boolean isJenkins = System.getenv("JENKINS_URL") != null;
+
+            WebDriver driver;
 
             try {
                 ChromeOptions options = new ChromeOptions();
@@ -37,19 +38,22 @@ public class WebDriverSingleton {
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("--disable-gpu");
 
-                if (isJenkins && selenoidUrl == null) {
-                    LOGGER.info("Запуск в Jenkins без Selenoid. Активирован режим --headless=new");
+                if (isJenkins && (selenoidUrl == null || selenoidUrl.isEmpty())) {
+                    LOGGER.warn("Jenkins обнаружен, но SELENOID_URL пуст! Использую локальный Headless Chrome.");
                     options.addArguments("--headless=new");
                 }
 
                 if (selenoidUrl != null && !selenoidUrl.isEmpty()) {
-                    LOGGER.info("Запуск через Selenoid: {}", selenoidUrl);
+                    LOGGER.info("Инициализация RemoteWebDriver для Selenoid: {}", selenoidUrl);
+
                     Map<String, Object> selenoidOptions = new HashMap<>();
                     selenoidOptions.put("enableVNC", true);
+                    selenoidOptions.put("enableVideo", false);
                     options.setCapability("selenoid:options", selenoidOptions);
+
                     driver = new RemoteWebDriver(new URL(selenoidUrl), options);
                 } else {
-                    LOGGER.info("Локальный запуск Chrome (Режим: {})", isJenkins ? "Headless" : "GUI");
+                    LOGGER.info("Локальный запуск ChromeDriver (GUI/Headless)");
                     driver = new ChromeDriver(options);
                 }
 
@@ -57,7 +61,7 @@ public class WebDriverSingleton {
                 DRIVER_THREAD_LOCAL.set(driver);
 
             } catch (Exception e) {
-                LOGGER.error("Ошибка при инициализации WebDriver: {}", e.getMessage());
+                LOGGER.error("Критическая ошибка инициализации WebDriver: {}", e.getMessage());
                 throw new RuntimeException(e);
             }
         }
@@ -69,9 +73,6 @@ public class WebDriverSingleton {
         if (value == null || value.isEmpty()) {
             value = DOTENV.get(key);
         }
-        if (value == null) {
-            LOGGER.warn("Переменная окружения '{}' не найдена!", key);
-        }
         return value;
     }
 
@@ -79,7 +80,7 @@ public class WebDriverSingleton {
         if (DRIVER_THREAD_LOCAL.get() != null) {
             DRIVER_THREAD_LOCAL.get().quit();
             DRIVER_THREAD_LOCAL.remove();
-            LOGGER.info("Сессия WebDriver завершена.");
+            LOGGER.info("Сессия WebDriver успешно закрыта.");
         }
     }
 }
