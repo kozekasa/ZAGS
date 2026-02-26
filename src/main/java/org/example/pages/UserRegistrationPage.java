@@ -52,9 +52,6 @@ public class UserRegistrationPage extends BasePage {
         setValue(telephoneNumberField, user.getTelephoneNumber());
         setValue(passportNumberField, user.getPassportNumber());
         setValue(registrationAddressField, user.getRegistrationAddress());
-
-        surnameField.click();
-
         return this;
     }
 

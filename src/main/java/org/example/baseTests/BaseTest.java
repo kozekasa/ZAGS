@@ -14,23 +14,22 @@ public class BaseTest {
 
     protected PageManager pages = new PageManager();
 
-    @Step("Подготовка окружения и запуск браузера")
-    @BeforeEach
-    public void setup() {
+    @Step("Открытие базового URL в браузере {browser}")
+    protected void openUrl(String browser) {
         String url = WebDriverSingleton.getEnv("BASE_URL");
+
         if (url == null || url.isEmpty()) {
-            LOGGER.error("[SETUP] BASE_URL не найден в конфигурации .env!");
-        } else {
-            LOGGER.info("[SETUP] Открытие URL: {}", url);
+            LOGGER.error("[SETUP] BASE_URL не найден!");
+            throw new RuntimeException("BASE_URL is missing in .env or system variables");
         }
 
         try {
-            WebDriverSingleton.getDriverThreadLocal().get(url);
+            WebDriverSingleton.getDriverThreadLocal(browser).get(url);
+            LOGGER.info("[SETUP] Браузер {} запущен, URL открыт: {}", browser, url);
         } catch (Exception e) {
-            LOGGER.error("[SETUP] Ошибка при подготовке к запуску теста: {}", e.getMessage());
+            LOGGER.error("[SETUP] Ошибка при старте браузера {}: {}", browser, e.getMessage());
             throw e;
         }
-        LOGGER.info("[SETUP] === Подготовка к запуску теста завершена ===");
     }
 
     @Step("Закрытие браузера")
