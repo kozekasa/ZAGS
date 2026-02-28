@@ -43,7 +43,7 @@ public class BirthRegistrationPage extends BasePage {
     @FindBy(xpath = "//label[contains(., 'Адрес прописки')]/../../input")
     private WebElement registrationAddressField;
 
-    @FindBy(xpath = "//*[text()='Далее']")
+    @FindBy(xpath = "//*[contains(text(), 'Далее')]")
     private WebElement nextPageButton;
 
     @FindBy(xpath = "//label[contains(., 'Место рождения')]/../../input")

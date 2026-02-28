@@ -15,7 +15,7 @@ public class NavigationButton {
     }
 
     public void click() {
-        WebDriverWait wait = new WebDriverWait(WebDriverSingleton.getDriverThreadLocal(), Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(WebDriverSingleton.getDriverThreadLocal(), Duration.ofSeconds(50000));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }

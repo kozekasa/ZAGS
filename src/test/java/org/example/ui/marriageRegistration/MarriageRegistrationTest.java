@@ -7,16 +7,21 @@ import org.example.models.CitizenData;
 import org.example.models.MarriageRegistrationServiceData;
 import org.example.models.UserData;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class MarriageRegistrationTest extends BaseTest {
     @Owner("Aleksandr")
-    @Test
+    @ParameterizedTest(name = "Тест регистрации брака в {0}")
+    @ValueSource(strings = {"chrome", "firefox", "opera"})
     @Tag("user")
     @Epic("ЗАГС")
     @Feature("Регистрация брака")
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Регистрация брака")
-    public void testSuccessfulMarriageRegistration() {
+    public void testSuccessfulMarriageRegistration(String browser) {
+        openUrl(browser);
+
         UserData user = TestDataFactory.createDefaultUser();
         CitizenData citizen = TestDataFactory.createDefaultCitizen();
         MarriageRegistrationServiceData serviceData = TestDataFactory.createMarriageServiceData();

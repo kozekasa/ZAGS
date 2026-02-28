@@ -11,7 +11,18 @@ public class CustomInput {
     }
 
     public void fillAndEnter(String text) {
+        element.click();
         element.clear();
-        element.sendKeys(text, Keys.ENTER);
+        element.click();
+        element.sendKeys(Keys.HOME);
+        for (char ch : text.toCharArray()) {
+            element.sendKeys(String.valueOf(ch));
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        element.sendKeys(Keys.TAB);
     }
 }

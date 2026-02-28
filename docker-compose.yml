@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  tests:
+    build: .
+    networks:
+      - zags_net
+    environment:
+      - SELENOID_URL=http://selenoid:4444/wd/hub
+    env_file:
+      - .env
+
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    container_name: selenoid
+    networks:
+      - zags_net
+    ports:
+      - "4444:4444"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config:/etc/selenoid:ro
+    command: ["-conf", "/etc/selenoid/browsers.json", "-container-network", "zags_zags_net"]
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui:latest-release
+    container_name: selenoid-ui
+    networks:
+      - zags_net
+    ports:
+      - "8083:8083"
+    command: ["--selenoid-uri", "http://selenoid:4444"]
+
+networks:
+  zags_net:
+    driver: bridge
