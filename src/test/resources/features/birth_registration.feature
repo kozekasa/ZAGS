@@ -1,3 +1,4 @@
+# language: ru
 Функционал: Регистрация заявки
 
   @Cucumber @User @Positive @UI
