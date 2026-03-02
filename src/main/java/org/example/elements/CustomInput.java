@@ -13,6 +13,8 @@ public class CustomInput {
     public void fillAndEnter(String text) {
         element.click();
         element.clear();
+        element.sendKeys(text);
+        /*
         element.click();
         element.sendKeys(Keys.HOME);
         for (char ch : text.toCharArray()) {
@@ -23,6 +25,7 @@ public class CustomInput {
                 Thread.currentThread().interrupt();
             }
         }
+        */
         element.sendKeys(Keys.TAB);
     }
 }

@@ -131,6 +131,11 @@
             <artifactId>cucumber-java</artifactId>
             <version>7.15.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>7.15.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -163,7 +168,7 @@
                             junit.jupiter.execution.parallel.mode.default = concurrent
                             junit.jupiter.execution.parallel.mode.classes.default = concurrent
                             junit.jupiter.execution.parallel.config.strategy = fixed
-                            junit.jupiter.execution.parallel.config.fixed.parallelism = 1
+                            junit.jupiter.execution.parallel.config.fixed.parallelism = 16
                         </configurationParameters>
                     </properties>
                     <testFailureIgnore>true</testFailureIgnore>
