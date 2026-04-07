@@ -1,7 +1,7 @@
 package org.example.ui.birthRegistration;
 
 import io.qameta.allure.*;
-import org.example.baseTests.BaseTest;
+import org.example.selenium.baseTests.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.BirthRegistrationServiceData;
 import org.example.models.CitizenData;

@@ -2,12 +2,12 @@ package org.example.api.requestProcess;
 
 import io.qameta.allure.*;
 import io.restassured.common.mapper.TypeRef;
-import org.example.ApiPreconditions;
+import org.example.selenium.ApiPreconditions;
 import org.example.models.ApplicationData;
 import org.example.models.BaseResponse;
 import org.example.models.UserDataAPI;
-import org.example.specs.RequestSpecs;
-import org.example.specs.ResponseSpecs;
+import org.example.selenium.specs.RequestSpecs;
+import org.example.selenium.specs.ResponseSpecs;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.RequestProcessData;
 import org.junit.jupiter.api.Assertions;

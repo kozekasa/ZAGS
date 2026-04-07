@@ -1,8 +1,8 @@
 package org.example.ui.admin;
 
 import io.qameta.allure.*;
-import org.example.ApiPreconditions;
-import org.example.baseTests.BaseTest;
+import org.example.selenium.ApiPreconditions;
+import org.example.selenium.baseTests.BaseTest;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.AdminData;
 import org.junit.jupiter.api.*;

@@ -2,8 +2,7 @@ package org.example.api.getApplications;
 
 import io.qameta.allure.*;
 import io.restassured.response.Response;
-import org.example.specs.RequestSpecs;
-import org.example.specs.ResponseSpecs;
+import org.example.selenium.specs.RequestSpecs;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;

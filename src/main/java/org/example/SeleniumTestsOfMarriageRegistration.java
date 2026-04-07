@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.driver.WebDriverSingleton;
+import org.example.selenium.driver.WebDriverSingleton;
 import org.openqa.selenium.*;
 
 public class SeleniumTestsOfMarriageRegistration {

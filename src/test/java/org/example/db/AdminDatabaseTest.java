@@ -1,8 +1,8 @@
 package org.example.db;
 
 import io.qameta.allure.*;
-import org.example.ApiPreconditions;
-import org.example.baseTests.BaseDbTest;
+import org.example.selenium.ApiPreconditions;
+import org.example.selenium.baseTests.BaseDbTest;
 import org.junit.jupiter.api.*;
 import java.sql.SQLException;
 

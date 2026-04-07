@@ -4,7 +4,7 @@ import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.example.dataFactory.TestDataFactory;
 import org.example.models.UserDataAPI;
-import org.example.specs.RequestSpecs;
+import org.example.selenium.specs.RequestSpecs;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;

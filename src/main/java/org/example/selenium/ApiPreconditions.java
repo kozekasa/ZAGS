@@ -1,0 +1,86 @@
+package org.example.selenium;
+
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
+import org.example.dataFactory.TestDataFactory;
+import org.example.models.AdminData;
+import org.example.models.RequestProcessData;
+import org.example.models.UserDataAPI;
+import org.example.selenium.specs.RequestSpecs;
+import org.example.selenium.specs.ResponseSpecs;
+
+import static io.restassured.RestAssured.given;
+
+public class ApiPreconditions {
+
+    @Step("API: Создание заявки и получение её ID")
+    public static String createApplicationAndGetId() {
+        UserDataAPI userRequest = TestDataFactory.createMarriageRegistrationAPIRequest().build();
+
+        return Allure.step("Отправка POST запроса на /sendUserRequest", () -> {
+            String appId = given()
+                    .spec(RequestSpecs.requestSpec())
+                    .body(userRequest)
+                    .when()
+                    .post("/sendUserRequest")
+                    .then()
+                    .spec(ResponseSpecs.successResponseSpec(200))
+                    .extract()
+                    .path("data.applicationid").toString();
+            return appId;
+        });
+    }
+
+    @Step("API: Создание заявки и получение её ID")
+    public static int createApplicationAndGetIntId(UserDataAPI userRequest) {
+        return Allure.step("Отправка POST запроса с кастомными данными", () -> {
+            return given()
+                    .spec(RequestSpecs.requestSpec())
+                    .body(userRequest)
+                    .when()
+                    .post("/sendUserRequest")
+                    .then()
+                    .spec(ResponseSpecs.successResponseSpec(200))
+                    .extract()
+                    .path("data.applicationid");
+        });
+    }
+
+    @Step("API: Регистрация администратора и получение его ID")
+    public static int createStaffAndGetId() {
+        AdminData admin = TestDataFactory.createAdminForAPI();
+
+        return Allure.step("API: Создание администратора и получение его ID", () -> {
+            return given()
+                    .spec(RequestSpecs.requestSpec())
+                    .body(admin)
+                    .when()
+                    .post("/sendAdminRequest")
+                    .then()
+                    .spec(ResponseSpecs.successResponseSpec(200))
+                    .extract().path("data.staffid");
+        });
+    }
+
+    @Step("API: Полный цикл создания заявки и перевода в статус '{targetStatus}'")
+    public static int[] createAndPrepareApplication(UserDataAPI userRequest, String targetStatus) {
+
+        int staffId = createStaffAndGetId();
+
+        int appId = createApplicationAndGetIntId(userRequest);
+
+        RequestProcessData requestData = TestDataFactory.createRequestStatus(appId, staffId, targetStatus);
+
+        Allure.step("API: Смена статуса заявки " + appId + " на " + targetStatus, () -> {
+            given()
+                    .spec(RequestSpecs.requestSpec())
+                    .body(requestData)
+                    .when()
+                    .post("/requestProcess")
+                    .then()
+                    .spec(ResponseSpecs.successResponseSpec(200));
+        });
+
+        return new int[]{appId, staffId};
+    }
+}
